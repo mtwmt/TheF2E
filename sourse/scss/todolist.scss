@@ -1,11 +1,10 @@
 @import 'layout';
 @import 'checkbox';
 
-@import url(//fonts.googleapis.com/css?family=Roboto:400,500);
-
 
 nav{
   margin-bottom: rem(24px);
+  height: rem(76px);
   line-height: rem(76px);
   background: #4A90E2;
   ul{
@@ -16,9 +15,8 @@ nav{
       position: relative;
       width:rem(160px);
       text-align: center;
-      
       font-size: rem(24px);
-      font-display: 'Roboto-Regular';
+      font-family: 'Roboto';
       a{
         color: #00408B;
       }
@@ -38,12 +36,176 @@ nav{
   }
 }
 
-.addinner{
-  display: none;
+.content{
+  *{ box-sizing: border-box; }
+  @include maxWidth(620px);
+  
+}
+
+.m-addtask{
+  transition: .5s;
+  &.is-active{
+    height: rem(500px);
+    .addinner{
+      max-height: rem(500px);
+      transform: scale(1,1);
+    }  
+  }
+  position: relative;
+  margin-bottom: rem(24px);
+  height: rem(64px);
+  .add{
+    padding: 0 rem(30px);
+    border-radius: rem(4px);
+    height: rem(64px);
+    line-height: rem(64px);
+    font-size: rem(24px);
+    border: rem(2px) solid #C8C8C8;
+    color: #C8C8C8;
+    background: #fff;
+  }
+  .addinner{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    transition: .5s;
+    transform: scale(1,0);
+    transform-origin: top;
+    box-shadow: 0px 4px 10px #c8c8c8;
+    .hd{
+      border-bottom: rem(2px) solid #C8C8C8;
+      border-radius: rem(4px) rem(4px) 0 0;
+      .m-task-item{
+        border-radius: rem(4px) rem(4px) 0 0;
+        height: rem(76px);
+        margin: 0;
+        .group{
+          align-self: center;
+        }
+        .edit{
+          align-self: center;
+          .fa-edit{
+            color: #4a90e2;
+          }
+        }
+      }
+    }
+    .bd{
+      position: relative;
+      border-radius: 0 0 rem(4px) rem(4px);
+      padding: rem(20px) rem(70px);
+      background: #F2F2F2;
+      >div{
+        margin-bottom: rem(16px);;
+      }
+      .tit{ 
+        font-size: rem(20px);
+        font-weight: 500;
+        margin-bottom: rem(8px);
+        i{
+          display: inline-block;
+          width: rem(20px);
+        }
+      }
+      .cont{
+        padding-left: rem(24px);
+      }
+      textarea{
+        resize: none;
+        font-family: 'Roboto';
+        padding: rem(8px) rem(16px);
+        line-height: rem(24px);
+        font-size: rem(16px);
+        border: 0px;
+        width: 100%;
+        height: rem(120px);
+      }
+    }
+    .ft{
+      text-align: center;
+      .btns{
+        display: flex;
+        i{
+          display: inline-block;
+          margin-right: rem(8px);
+        }
+        a{ 
+          position: relative;
+          display: block;
+          width: 50%;
+          font-size: rem(24px);
+          line-height: rem(60px);
+          &.cancel{
+            color: #D0021B;
+            background: #fff;
+            &:hover{
+              background: #fdfdfd;
+            }
+          }
+          &.save{
+            color: #fff;
+            background: #4A90E2;
+            &:hover{
+              background: #3982d7;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+[data='check-file']{
+  display: flex;
+  .fileinfo{
+    margin-right: rem(24px);
+    font-family: 'Roboto';
+    line-height: rem(20px);
+    .date{
+      color: #757575;
+    }
+  }
+  input{ 
+    display: none; 
+  }
+  label{
+    align-self: center;
+    &:hover{
+      background: #4A90E2; 
+    }
+    transition: .3s;
+    position: relative;
+    border-radius: rem(2px);
+    display: block;
+    width: rem(32px);
+    height: rem(32px);
+    background: #c8c8c8;
+    cursor: pointer;
+    &:before,&:after{
+      content:"";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: rem(12px);
+      height: rem(2px);
+      background: #fff;
+    }
+    &:after{
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+  }
+}
+
+
+.m-task-items{
+  
 }
 .m-task-item{
-  box-sizing: border-box;
-  @include maxWidth(620px);
+  
   height: rem(102px);
   margin-bottom: rem(8px);
   padding: rem(20px) rem(30px);
@@ -53,11 +215,12 @@ nav{
   justify-content: space-between;
   .group{
     flex: 0 0 atuo;
+    // align-self: center;
     width: rem(36px);
   }
-  
   .info{
     display: flex;
+    // align-self: center;
     flex-wrap: wrap;
     align-content: space-between;
     flex: 1 1 0;
@@ -85,7 +248,6 @@ nav{
   }
   .edit{
     flex: 0 0 atuo;
-    // @include span(12,2);
     font-size: rem(24px);
     i{
       display: inline-block;

@@ -24,18 +24,66 @@
     </nav>
     <div class="content">
       <div class="m-addtask">
-        <div class="add"></div>
+        <div class="add">+ Add Task</div>
         <div class="addinner">
           <div class="hd">
-            <div class="group">
-              <div data="checkbox-check">
-                <input type="checkbox" id="check" />
-                <label for="check">ITEM</label>
+            <div class="m-task-item">
+              <div class="group">
+                <div data="checkbox-check">
+                  <input type="checkbox" id="check1" />
+                  <label for="check1"></label>
+                </div>
+              </div>
+              <div class="info">
+                <input type="text" placeholder="Type Something Here…"> </div>
+              <div class="edit">
+                <i class="far fa-star"></i>
+                <i class="fas fa-edit"></i>
               </div>
             </div>
-            <div class="event">
-              <i class="fa fa-star fa-lg"></i>
-              <div class="edit"></div>
+          </div>
+          <div class="bd">
+            <div class="deadline">
+              <div class="tit">
+                <i class="far fa-calendar-alt"></i>
+                <span>Deadline</span>
+              </div>
+              <div class="cont">
+                <input type="date">
+                <input type="time"> </div>
+            </div>
+            <div class="file">
+              <div class="tit">
+                <i class="far fa-file"></i>
+                <span>File</span>
+              </div>
+              <div class="cont">
+                <div data="check-file">
+                  <input type="file" id="file">
+                  <!-- <div class="fileinfo">
+                  <p class="name"></p>
+                  <p class="date"></p>
+                </div> -->
+                  <label for="file"></label>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="tit">
+                <i class="far fa-comment-dots"></i>
+                <span>Comment</span>
+              </div>
+              <div class="cont">
+                <textarea name="" id="" cols="30">Type your memo here...</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="ft">
+            <div class="btns">
+              <a href="javascript:;" class="cancel">
+                <i class="fa fa-times"></i> Cancel </a>
+              <a href="javascript:;" class="save">
+                <i class="fa fa-plus"></i> Save </a>
             </div>
           </div>
         </div>
@@ -71,8 +119,8 @@
         <div class="m-task-item">
           <div class="group">
             <div data="checkbox-check">
-              <input type="checkbox" id="check1" />
-              <label for="check1"></label>
+              <input type="checkbox" id="check2" />
+              <label for="check2"></label>
             </div>
           </div>
           <div class="info">
