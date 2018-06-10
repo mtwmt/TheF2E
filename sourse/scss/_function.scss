@@ -1,0 +1,13 @@
+//px to rem
+@function rem($target, $context: 16px){
+  @if $target == 0 { @return 0 }
+  @return ($target / $context)+ 0rem;
+}
+
+// px to %
+@function percent($target, $container: 960){
+  @if $target == 0 { @return 0 }
+  @return ($target / $container*100)+ 0%;
+}
+
+

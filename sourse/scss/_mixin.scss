@@ -1,0 +1,44 @@
+
+// 最大寬
+@mixin maxWidth( $width, $space: 0){
+  padding: 0 rem( $space );
+  max-width: rem( $width + ($space*2) );
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+// grid
+@function span( $grid, $column, $gutter: 0 ){
+  @return ( 100 / $grid ) * $column + 0% ;
+}
+
+@mixin span( $grid, $column, $gutter: 0 ,$nth: none){
+  width: span( $grid, $column);
+  padding: 0 rem($gutter) / 2;
+  box-sizing: border-box;
+
+  @if $nth == first{
+    margin-left: rem(-$gutter) / 2;
+  }@else if $nth == last{
+    margin-right: rem(-$gutter) / 2;
+  }@else if $nth == none{
+    margin-left :auto;
+    margin-right :auto;
+  }
+}
+
+// animation
+@mixin animation($animation...) {
+  -o-animation: $animation;
+  -moz-animation: $animation;
+  -webkit-animation: $animation;
+  animation: $animation;
+}
+// 動畫動作
+// @keyframes spin {
+//   	0%{ -webkit-transform: rotate(0deg); tranform: rotate(0deg);}
+// 	100%{ -webkit-transform: rotate(360deg); tranform: rotate(360deg);}
+// }
+// @include animation(spin 1s linear infinite);
+
+

@@ -1,0 +1,104 @@
+@import 'layout';
+@import 'checkbox';
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,500);
+
+
+nav{
+  margin-bottom: rem(24px);
+  line-height: rem(76px);
+  background: #4A90E2;
+  ul{
+    @include maxWidth(620px);
+    display: flex;
+    justify-content: space-between;
+    >li{
+      position: relative;
+      width:rem(160px);
+      text-align: center;
+      
+      font-size: rem(24px);
+      font-display: 'Roboto-Regular';
+      a{
+        color: #00408B;
+      }
+      &.is-active a,&:hover a{
+        color: #fff;
+        &:after{
+          content: '';
+          position: absolute;
+          left:0;
+          bottom: 0;
+          width: 100%;
+          height: rem(5px);
+          background: #00408B;
+        }
+      }
+    }
+  }
+}
+
+.addinner{
+  display: none;
+}
+.m-task-item{
+  box-sizing: border-box;
+  @include maxWidth(620px);
+  height: rem(102px);
+  margin-bottom: rem(8px);
+  padding: rem(20px) rem(30px);
+  border-radius: rem(4px);
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: space-between;
+  .group{
+    flex: 0 0 atuo;
+    width: rem(36px);
+  }
+  
+  .info{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    flex: 1 1 0;
+    input[type='text']{
+      &::placeholder{
+        color: #000;
+      }
+      border:0px;
+      font-size: rem(24px);
+      font-family: 'Roboto';
+      font-weight: 500;
+      line-height: rem(20px);
+      background: transparent;
+    }
+    .state{
+      > span{
+        display: inline-block;
+        color:#757575;
+        margin-right: rem(16px);
+        >em{
+          margin-left: rem(8px);
+        }
+      }
+    }
+  }
+  .edit{
+    flex: 0 0 atuo;
+    // @include span(12,2);
+    font-size: rem(24px);
+    i{
+      display: inline-block;
+      margin-left: rem(20px);
+    }
+  }
+  &.topic{
+    background: #FFF2DC;
+    .edit{  
+      .fa-star{
+        color: #F5A623;
+      }
+    }
+  }
+}
+

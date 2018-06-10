@@ -1,0 +1,32 @@
+@import 'reset';
+@import 'function';
+@import 'mixin';
+
+body,html{
+  position: relative;
+	-webkit-text-size-adjust: 100%;
+	font-family: "Microsoft JhengHei", "Apple LiGothic Medium", "sans-serif", "serif";
+}
+html{
+  font-size: 16px;
+}
+
+a{ text-decoration: none; display: block;
+	transition: .3s;
+	&:hover{
+		color: #fff;
+		text-decoration: none;
+		opacity: 0.7;
+	}
+}
+
+a[href^=tel]{
+	display: inline-block;
+}
+
+input{ -webkit-appearance: none; 
+	&:focus{
+		outline: none;
+	}
+}
+

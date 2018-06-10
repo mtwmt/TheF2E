@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>week1-todolist</title>
+  <link rel="stylesheet" href="css/week1.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+</head>
+<body>
+  <header></header>
+  <nav>
+    <ul>
+      <li class="is-active"><a href="#">My Tasks</a></li>
+      <li><a href="#">In Progress</a></li>
+      <li><a href="#">Completed</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <div class="m-addtask">
+      <div class="add"></div>
+      <div class="addinner">
+        <div class="hd">
+          <div class="group">
+            <div data="checkbox-check">
+              <input type="checkbox" id="check" />
+              <label for="check">ITEM</label>
+            </div>
+          </div>
+          <div class="event">
+            <i class="fa fa-star fa-lg"></i>
+            <div class="edit"></div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-task-items">
+      <div class="m-task-item topic">
+        <div class="group">
+          <div data="checkbox-check">
+            <input type="checkbox" id="check1" />
+            <label for="check1"></label>
+          </div>
+        </div>
+        <div class="info">
+          <input type="text" placeholder="Type Something Here…">
+          <div class="state">
+            <span class="data">
+              <i class="far fa-calendar-alt fa-lg"></i>
+              <em>5/14</em>
+            </span>
+            <span class="file">
+              <i class="far fa-file fa-lg"></i>
+            </span>
+            <span class="remark">
+              <i class="far fa-comment-dots fa-lg"></i>
+            </span>
+          </div>
+        </div>
+        <div class="edit">
+            <i class="fas fa-star"></i>
+            <i class="far fa-edit"></i>
+        </div>
+      </div>
+      <div class="m-task-item">
+        <div class="group">
+          <div data="checkbox-check">
+            <input type="checkbox" id="check1" />
+            <label for="check1"></label>
+          </div>
+        </div>
+        <div class="info">
+          <input type="text" placeholder="Type Something Here…">
+          <div class="state">
+            <span class="data">
+              <i class="far fa-calendar-alt fa-lg"></i>
+              <em>5/14</em>
+            </span>
+            <span class="file">
+              <i class="far fa-file fa-lg"></i>
+            </span>
+            <span class="remark">
+              <i class="far fa-comment-dots fa-lg"></i>
+            </span>
+          </div>
+        </div>
+        <div class="edit">
+            <i class="far fa-star"></i>
+            <i class="far fa-edit"></i>
+        </div>
+      </div>
+    </div>
+    <p class="total"></p>
+  </div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/todolist.js"></script>
