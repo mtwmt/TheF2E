@@ -122,6 +122,8 @@ nav{
 .m-task-item{
   border-radius: rem(4px);
   margin-bottom: rem(8px);
+  height: rem(102px);
+  transition: .5s;
   &.topic{
     .m-task-label{
       background: #FFF2DC;

@@ -107,13 +107,22 @@ mandy.view.task = (function($){
       '</div>'
     ].join('');
   },
+  actEdit = function(){
+    var $this = $(this);
+    $this.parents('.m-task-item').addClass('is-edit');
+    console.log(456);
+  },
   init = function( data ){
     console.log('data1',data)
     var items = $('<div class="m-task-items">');
     items.append(function(){
       
       $task = data.todolist.map( function( e,i ){
-        return $(tempTask( e ));
+        return $(tempTask( e ))
+              .on('click','.fa-edit', actEdit)
+              .on('click','.cancel,.save', function(){
+                $(this).parents('.m-task-item').removeClass('is-edit');
+              });
       });
       return $task;
     });
