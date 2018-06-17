@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>week2-filter</title>
+  <link rel="stylesheet" href="css/filter.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+</head>
+<body>
+  <header>
+    <div class="content">
+      <div class="logo">HaveFun</div>
+      <div class="m-search">
+        <i class="fas fa-search"></i>
+        <input type="search" placeholder="Explore your own activities">
+      </div>
+    </div>
+  </header>
+  <div class="content">
+    <div class="m-sidebar">
+      <div class="m-filter">
+        <div class="tit">Location</div>
+        <div class="cont">
+          <div class="group-select">
+            <div class="group-select-hd">
+              <span>Taiwan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-filter">
+        <div class="tit">Date</div>
+        <div class="cont">
+          <div class="group-date">
+            <em>from</em>
+            <input type="date">
+          </div>
+          <div class="group-date">
+            <em>to</em>
+            <input type="date">
+          </div>
+        </div>
+      </div>
+      <div class="m-filter">
+        <div class="tit">Categories</div>
+        <div class="cont">
+          <div class="group-checkbox">
+            <div data="checkbox-check">
+              <input type="checkbox" id="check1" />
+              <label for="check1">All</label>
+            </div>
+          </div>
+          <div class="group-checkbox">
+            <div data="checkbox-check">
+              <input type="checkbox" id="check2" />
+              <label for="check2">Entertainment</label>
+            </div>
+          </div>
+          <div class="group-checkbox">
+            <div data="checkbox-check">
+              <input type="checkbox" id="check3" />
+              <label for="check3">Entertainment</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-main">
+      <page-list>
+        <div class="m-results">
+          <p>Showing <span>15</span> results by…</p>
+          <div class="tags">
+            <div class="tag">Koahsiung<i class="far fa-times-circle"></i></div>
+            <div class="tag">aaa<i class="far fa-times-circle"></i></div>
+          </div>
+        </div>
+        <div class="m-items">
+          <a href="#" class="m-cart">
+            <figure><img src="http://picsum.photos/220/220/?random1" alt=""></figure>
+            <div class="m-cart-cont">
+              <h4>這是標題</h4>
+              <div class="description">Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit est, tincidunt mattis lorem luctus id. Donec eget massa a diam condimentum pretium. Aliquam erat volutpat. Integer ut tincidunt orci. Etiam tristique, elit ut consectetur iaculis, metus lectus mattis justo, vel mollis eros neque quis augue. Sed lobortis ultrices lacus, a placerat metus rutrum sit amet. Aenean ut suscipit justo.</div>
+              <div class="organizer">
+                <em>主辦單位</em>
+                <div class="tags">
+                  <div class="tag">Entertainment</div>
+                </div>
+              </div>
+              <div class="info">
+                <span>
+                  <i class="fa fa-map-marker-alt"></i>
+                  <em>高雄市</em>
+                </span>
+                <span>
+                    <i class="far fa-calendar-alt"></i>
+                    <em>2018/5/24 - 2018/5/31</em>
+                </span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="m-cart">
+            <figure><img src="http://picsum.photos/220/220/?random2" alt=""></figure>
+            <div class="m-cart-cont">
+              <h4>這是標題</h4>
+              <div class="description">Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit est, tincidunt mattis lorem luctus id. Donec eget massa a diam condimentum pretium. Aliquam erat volutpat. Integer ut tincidunt orci. Etiam tristique, elit ut consectetur iaculis, metus lectus mattis justo, vel mollis eros neque quis augue. Sed lobortis ultrices lacus, a placerat metus rutrum sit amet. Aenean ut suscipit justo.</div>
+              <div class="organizer">
+                <em>主辦單位</em>
+                <div class="tags">
+                  <div class="tag">Entertainment</div>
+                </div>
+              </div>
+              <div class="info">
+                <span>
+                  <i class="fa fa-map-marker-alt"></i>
+                  <em>高雄市</em>
+                </span>
+                <span>
+                    <i class="far fa-calendar-alt"></i>
+                    <em>2018/5/24 - 2018/5/31</em>
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="m-page">
+          <span><a href="" class="prev"><i class="fas fa-angle-double-left"></i></a></span>
+          <ul>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+          </ul>
+          <span><a href="" class="next"><i class="fas fa-angle-double-right"></i></a></span>
+        </div>
+      </page-list>
+      <page-article>
+        <div class="m-breadcrumbs">
+          <ul>
+            <li>aaa</li>
+            <li>bb</li>
+          </ul>
+        </div>
+        <div class="m-article">
+          <figure><img src="http://picsum.photos/640/350/?random2" alt=""></figure>
+          <div class="m-article-cont">
+            <h2>title</h2>
+            <div class="organizer">
+              <em>主辦單位</em>
+              <div class="tags">
+                <div class="tag">Entertainment</div>
+              </div>
+            </div>
+            <div class="info">
+              <span>
+                <i class="fa fa-map-marker-alt"></i>
+                <em>高雄市</em>
+              </span>
+              <span>
+                  <i class="far fa-calendar-alt"></i>
+                  <em>2018/5/24 - 2018/5/31</em>
+              </span>
+            </div>
+            <div class="description">
+              <p>In the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew. Now hands are wanted here, and then again hands are wanted there. There is no staying in any one place; for at one and the same time everything has to be done everywhere. It is much the same with him who endeavors the description of the scene. We must now retrace our way a little. </p>
+              <p>It was mentioned that upon first breaking ground in the whale's back, the blubber-hook was inserted into the original hole there cut by the spades of the mates. But how did so clumsy and weighty a mass as that same hook get fixed in that hole? It was inserted there by my particular friend Queequeg, whose duty it was, as harpooneer, to descend upon the monster's back for the special purpose referred to. But in very many cases, circumstances require that the.</p>    
+            </div>
+          </div>
+        </div>
+      </page-article>
+
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="js/filter.js"></script>
+

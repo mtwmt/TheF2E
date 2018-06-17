@@ -1,19 +1,19 @@
 
-
-[data='checkbox-check'] {
+@mixin checkbox( $size, $color ){
   position: relative;
   display: inline-block;
-  line-height: rem(24px);
+  line-height: rem($size);
   input[type="checkbox"] {
     &~label {
+      padding-left: rem($size);
       &:before {
         content: '';
         position: absolute;
         z-index: 1;
-        top: rem(6px);
-        left: rem(6px);
-        width: rem(12px);
-        height: rem(6px);
+        top: rem( $size/4 );
+        left: rem( $size/4  );
+        width: rem( $size/2 );
+        height: rem( $size/4 );
         border: rem(2px) solid #191919;
         border-top-style: none;
         border-right-style: none;
@@ -28,9 +28,8 @@
         z-index: 0;
         top: 0;
         left: 0px;
-        // border: 1px solid #808080;
-        width: rem(24px);
-        height: rem(24px);
+        width: rem($size);
+        height: rem($size);
         background: #fff;
         cursor: pointer;
       }
@@ -41,7 +40,8 @@
         border-color: #fff;
       }
       &:after {
-        background: #4A90E2;
+        // background: #4A90E2;
+        background: $color;
       }
     }
   }

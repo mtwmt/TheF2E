@@ -3,7 +3,6 @@
 
 
 nav{
-  
   height: rem(76px);
   line-height: rem(76px);
   background: #4A90E2;
@@ -42,6 +41,11 @@ nav{
   *{ box-sizing: border-box; }
   @include maxWidth(620px);
   
+}
+
+
+[data='checkbox-check']{
+  @include checkbox( 24px,#4A90E2 );
 }
 
 .m-addtask{
