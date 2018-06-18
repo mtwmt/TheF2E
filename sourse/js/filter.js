@@ -77,8 +77,12 @@ mandy.model.filter = (function($){
 mandy.view = mandy.view || {};
 mandy.view.filter = (function($){
   var $layout = $('body > .content'),
-      $sidebar = $layout.find('.m-sidebar'),
+      // $sidebar = $layout.find('.m-sidebar'),
       $main = $layout.find('.m-main'),
+      plist = 5,
+      pTotal,
+      pCurrent,
+      
   tempSelect = function( data ){
     var temp = [];
     data.list.map(function( e,i ){
@@ -159,16 +163,47 @@ mandy.view.filter = (function($){
       '</a>'
     ].join('');
   },
-  tempList = function( data ){
-    var temp = [];
-    for( var i=0; i<10; i++ ){
-      temp.push(tempCart( data[i] ));
+  tempList = function( data, num ){
+    var temp = [],
+        current = 0,
+        num = (num * plist) || 0,
+        start = (current % plist);
+
+    console.log( 'list', start,num )
+
+    for( start; start < plist; start++ ){
+      temp.push( tempCart( data[ (start + num) ] ));
+      // console.log( start + 10 )
     }
     return [
       '<div class="m-items">',
         temp.join(''),
       '</div>'
     ].join('');
+  },
+  tempPage = function( data ){
+    pTotal =  parseInt( data.length / plist, 10 ) + 1;
+    pCurrent = pCurrent || 1;
+    var tempArr = [],
+        start = pCurrent - (( pCurrent - 1 ) % plist),
+        limit = Math.min( pCurrent - (( pCurrent - 1 ) % plist) + plist - 1, 5 );
+    for( start; start <= limit ; start++ ){
+      var active = (pCurrent === start)? 'active':'';
+      tempArr.push(
+        '<li><a data-page="', start - 1 ,'" class="', active ,'" href="#">', start ,'</a></li>'
+      );
+    };
+     
+    return [
+      '<div class="m-page">',
+        '<span><a href="#" class="prev"><i class="fas fa-angle-double-left"></i></a></span>',
+        '<ul>',
+          tempArr.join(''),
+        '</ul>',
+        '<span><a href="#" class="next"><i class="fas fa-angle-double-right"></i></a></span>',
+      '</div>'
+    ].join('');
+    
   },
   tempArticle = function( data ){
     return [
@@ -209,10 +244,10 @@ mandy.view.filter = (function($){
         $results = $(tempResults( data.total )),
         $categories = $results.find('.tags');
 
-    
     $page.append(
       $results,
       tempList( data.records ),
+      tempPage( data.records )
     ).appendTo( $main );
     $page.after( $('<page-article />') );
   },
@@ -223,8 +258,9 @@ mandy.view.filter = (function($){
     }
   };
   return{
-    tempArticle: tempArticle,
+    tempList: tempList,
     tempCart: tempCart,
+    tempArticle: tempArticle,
     pageList: pageList,
     page: page
   }
@@ -284,43 +320,57 @@ mandy.controller.filter = (function($){
   },
 
   init = function(){
+
     mandy.model.filter.getData(function( data ){
       total = data.total;
       mandy.view.filter.pageList( data );
+      console.log( data.records );
+      $layout
+        .on('click','.m-items > .m-cart', function(){
+          var $this = $(this),
+              id = $this.data('id');
+            data.records.map(function( e,i ){
+              if( e.Id.indexOf( id ) >=0 ) {
+                // his.push({
+                //   obj: e
+                // });
+                $('page-list').hide();
+                $('page-article').append( mandy.view.filter.tempArticle( e ) );
+                // pageChange( e, '?id='+ id +'' );
+              }
+            });
+          return false;
+        })
+        .on('click','.m-page a',function(){
+          var $this = $(this);
+          console.log( 'page',$(this).data('page') );
+          $this.parents('.m-page').find('a').removeClass('active');
+          $this.addClass('active');
+          $layout.find('.m-items').empty().append( mandy.view.filter.tempList( data.records, parseInt( $(this).data('page') ) ) );
+          return false;
+        });
+
+
     });
 
     mandy.model.filter.getSearchData(function( data ){
         $select = mandy.view.filter.page( data ).select;
         $categories = mandy.view.filter.page( data ).categories;
-      $select.on('click','.group-select-hd',function(){
-        $(this).siblings('.group-select-bd').toggleClass('active');
-      }).on('click','.group-select-bd > ul > li', actSelect );
+      $select
+          .on('click','.group-select-hd',function(){
+            $(this).siblings('.group-select-bd').toggleClass('active');
+          })
+          .on('click','.group-select-bd > ul > li', actSelect );
       $sidebar.append(
         $select,
         $categories
       );
     });
 
-    $layout.on('click','.m-items > .m-cart', function(){
-      var $this = $(this),
-          id = $this.data('id');
-      mandy.model.filter.getData(function( data ){
-        data.records.map(function( e,i ){
-          if( e.Id.indexOf( id ) >=0 ) {
-            // his.push({
-            //   obj: e
-            // });
-            $('page-list').hide();
-            $('page-article').append( mandy.view.filter.tempArticle( e ) );
-
-            // pageChange( e, '?id='+ id +'' );
-          }
-        });
-      });
-      return false;
-    });
-
     $layout.on('click','[data-back]',pageBack);
+      
+
+
     // $(window).on('popstate', popState).trigger('popstate');
   }
   return{
