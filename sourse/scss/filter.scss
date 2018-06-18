@@ -1,13 +1,23 @@
 @import 'layout';
 @import 'checkbox';
 
-page-list{
-  // display: none;
-  display: block;
-}
+// page-list{
+//   // display: none;
+//   display: block;
+// }
 
 page-article{
-  display: none;
+  [data-back]{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    padding: 0 rem(16px);
+    line-height: rem(48px);
+    color: #fff;
+    display: inline-block;
+    background: rgba( #9013FE,.7 );
+  }
 }
 
 header{
@@ -104,6 +114,9 @@ input[type="date"]{
   }
   .group-checkbox{
     margin-bottom: rem(8px);
+    label{
+      line-height: rem(24px);
+    }
   }
 }
 
@@ -125,6 +138,7 @@ input[type="date"]{
     }
     transition: .5s;
     position: absolute;
+    z-index: 5;
     top: rem(42px);
     left: 0;
     width: 100%;
@@ -139,7 +153,7 @@ input[type="date"]{
       padding: rem(8px);
       max-height: 0;
       li{
-        line-height: rem(24px);
+        line-height: rem(40px);
         cursor: pointer;
       }
     }
@@ -154,7 +168,7 @@ input[type="date"]{
     font-weight: bold;
   }
   .tag{
-    i{ margin-left: rem(2px) }
+    i{ margin-left: rem(8px) }
     display: inline-block;
     margin-right: rem(8px);
     margin-bottom: rem(8px);
@@ -291,6 +305,7 @@ input[type="date"]{
 }
 
 .m-breadcrumbs{
+  position: relative;
   padding: 0 1rem;
   margin-bottom: rem(24px);
   line-height: rem(48px);

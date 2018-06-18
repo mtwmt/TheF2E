@@ -12,17 +12,18 @@ mandy.model.filter = function ($) {
       tit: 'Categories'
     }
   },
-      getData = function getData(callback, obj) {
+      getData = function getData(callback) {
     if (callback) {
       if (dataCache) {
         callback(dataCache);
+        console.log('cache');
       } else {
         $.ajax({
           url: 'https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97',
           method: 'get',
           dataType: 'json',
           data: {
-            // limit: obj.limit,
+            limit: 300
           },
           success: function success(res) {
             dataCache = res.result || {};
@@ -39,8 +40,7 @@ mandy.model.filter = function ($) {
 
   // 過濾資料表
   getSearchData = function getSearchData(callback) {
-    var temp = [],
-        aa;
+    var temp = [];
     temp.location = [];
     temp.categories = [];
     getData(function (data) {
@@ -55,19 +55,15 @@ mandy.model.filter = function ($) {
           });
         }
       }
-
       searchData.categories.list = searchData.categories.list.filter(function (el, idx, arr) {
         if (el.length > 0) {
-
           return el;
         }
       });
-      searchData.categories.list = searchData.categories.list.map(function (e, l) {
-        // e = e.split(' ');
-        console.log(e);
+      searchData.categories.list.map(function (e, i) {
+        e = e.split(' ');
+        return searchData.categories.list[i] = e[0];
       });
-
-      console.log(searchData.categories.list, temp);
       callback(searchData);
     });
   };
@@ -86,30 +82,32 @@ mandy.view.filter = function ($) {
       tempSelect = function tempSelect(data) {
     var temp = [];
     data.list.map(function (e, i) {
-      // console.log(e);
       temp.push('<li>', e, '</li>');
     });
-    return ['<div class="m-filter">', '<div class="tit">Location</div>', '<div class="cont">', '<div class="group-select">', '<div class="group-select-hd">', '<span>Taiwan</span>', '</div>', '<div class="group-select-bd">', '<ul>', temp.join(''), '</ul>', '</div>', '</div>', '</div>', '</div>'].join('');
+    return ['<div class="m-filter">', '<div class="tit">Location</div>', '<div class="cont">', '<div class="group-select">', '<div class="group-select-hd">', '<span>地區</span>', '</div>', '<div class="group-select-bd">', '<ul>', temp.join(''), '</ul>', '</div>', '</div>', '</div>', '</div>'].join('');
   },
       tempCategories = function tempCategories(data) {
-    var temp = ['<div class="m-filter">', '<div class="tit">Categories</div>', '<div class="cont">', '<div class="group-checkbox">', '<div data="checkbox-check">', '<input type="checkbox" id="check1" />', '<label for="check1">All</label>', '</div>', '</div>', '<div class="group-checkbox">', '<div data="checkbox-check">', '<input type="checkbox" id="check2" />', '<label for="check2">Entertainment</label>', '</div>', '</div>', '<div class="group-checkbox">', '<div data="checkbox-check">', '<input type="checkbox" id="check3" />', '<label for="check3">Entertainment</label>', '</div>', '</div>', '</div>', '</div>'];
-    return temp.join('');
+    var temp = [];
+    data.list.map(function (e, i) {
+      temp.push('<div class="group-checkbox">', '<div data="checkbox-check">', '<input type="checkbox" id="check', i, '" />', '<label for="check', i, '">', e, '</label>', '</div>', '</div>');
+    });
+    return ['<div class="m-filter">', '<div class="tit">', data.tit, '</div>', '<div class="cont">', temp.join(''), '</div>', '</div>'].join('');
   },
       tempResults = function tempResults(data) {
-    return ['<div class="m-results">', '<p>Showing <span>', data, '</span> results by…</p>', '<div class="tags">',
-    // '<div class="tag">Koahsiung<i class="far fa-times-circle"></i></div>',
-    // '<div class="tag">aaa<i class="far fa-times-circle"></i></div>',
-    '</div>', '</div>'].join('');
+    return ['<div class="m-results">', '<p>Showing <span>', data, '</span> results by…</p>', '<div class="tags">', '</div>', '</div>'].join('');
   },
       tempCart = function tempCart(data) {
     return ['<a href="#" class="m-cart" data-id=', data.Id, '>', '<figure><img src="', data.Picture1, '" alt=""></figure>', '<div class="m-cart-cont">', '<h4>', data.Name, '</h4>', '<div class="description">', data.Description, '</div>', '<div class="organizer">', '<em>說明</em>', '<div class="tags">', '<div class="tag">', data.Ticketinfo, '</div>', '</div>', '</div>', '<div class="info">', '<span>', '<i class="fa fa-map-marker-alt"></i>', '<em>', data.Zone, '</em>', '</span>', '<span>', '<i class="far fa-calendar-alt"></i>', '<em>', data.Opentime, '</em>', '</span>', '</div>', '</div>', '</a>'].join('');
   },
       tempList = function tempList(data) {
     var temp = [];
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
       temp.push(tempCart(data[i]));
     }
     return ['<div class="m-items">', temp.join(''), '</div>'].join('');
+  },
+      tempArticle = function tempArticle(data) {
+    return ['<div class="m-breadcrumbs">', '<ul>', '<li>', data.Zone, '</li>', '<li>', data.Name, '</li>', '</ul>', '<a href="#" data-back>回上頁</a>', '</div>', '<div class="m-article">', '<figure><img src="', data.Picture1, '" alt=""></figure>', '<div class="m-article-cont">', '<h2>', data.Name, '</h2>', '<div class="organizer">', '<em>說明</em>', '<div class="tags">', '<div class="tag">', data.Ticketinfo, '</div>', '</div>', '</div>', '<div class="info">', '<span>', '<i class="fa fa-map-marker-alt"></i>', '<em>', data.Add, '</em>', '</span>', '<span>', '<i class="far fa-calendar-alt"></i>', '<em>', data.Opentime, '</em>', '</span>', '</div>', '<div class="description">', data.Description, '</div>', '</div>', '</div>'].join('');
   },
       pageList = function pageList(data) {
     var $page = $('<page-list />'),
@@ -117,19 +115,17 @@ mandy.view.filter = function ($) {
         $categories = $results.find('.tags');
 
     $page.append($results, tempList(data.records)).appendTo($main);
+    $page.after($('<page-article />'));
   },
       page = function page(data) {
-    var $select = $(tempSelect(data.location)),
-        $categories = $(tempCategories(data.categories));
-    // $date = $(tempDate());
-
-    // $select.on('click','.group-select-hd',function(){
-    //   $(this).siblings('.group-select-bd').toggleClass('active');
-    // });
-
-    $sidebar.append($select, $categories);
+    return {
+      select: $(tempSelect(data.location)),
+      categories: $(tempCategories(data.categories))
+    };
   };
   return {
+    tempArticle: tempArticle,
+    tempCart: tempCart,
     pageList: pageList,
     page: page
   };
@@ -137,18 +133,90 @@ mandy.view.filter = function ($) {
 
 mandy.controller = mandy.controller || {};
 mandy.controller.filter = function ($) {
-  var total,
+  var $layout = $('body > .content'),
+      $sidebar = $layout.find('.m-sidebar'),
+      $select,
+      $categories,
+      his = [],
+      total,
+      actSelect = function actSelect() {
+    var $this = $(this),
+        location = $this.text(),
+        idx;
+    $this.parents('.group-select-bd').removeClass('active');
+    $select.find('.group-select-hd > span').text($this.text());
+    // idx = locationArr.indexOf( location );
+
+    // if( idx < 0  ){
+    //   locationArr.push( location );
+    //   $layout.find('.m-results .tags').append(
+    //     '<div class="tag">'+ location +'<i class="far fa-times-circle"></i></div>'
+    //   )
+    // }
+
+    $layout.find('.m-items').empty();
+    $layout.find('.m-results .tags').html('<div class="tag">' + location + '<i class="far fa-times-circle"></i></div>');
+    mandy.model.filter.getData(function (data) {
+      var cnt;
+      data.records.map(function (e, i) {
+        if (location.indexOf(e.Zone) >= 0) {
+          cnt = cnt || 0;
+          cnt++;
+          $layout.find('.m-items').append($(mandy.view.filter.tempCart(e)));
+          $layout.find('.m-results > p > span').text(cnt);
+        }
+      });
+    });
+  },
+      pageChange = function pageChange(obj, url) {
+    history.pushState(obj, '', url);
+  },
+      pageBack = function pageBack() {
+    $('page-list').show();
+    $('page-article').empty();
+
+    // history.back();
+    return false;
+  },
+      popState = function popState() {
+    // pageBack();
+  },
       init = function init() {
     mandy.model.filter.getData(function (data) {
-      console.log('getData', data);
       total = data.total;
       mandy.view.filter.pageList(data);
-    }, { limit: 10 });
+    });
 
     mandy.model.filter.getSearchData(function (data) {
-      mandy.view.filter.page(data);
-      console.log('getSearchData', data);
+      $select = mandy.view.filter.page(data).select;
+      $categories = mandy.view.filter.page(data).categories;
+      $select.on('click', '.group-select-hd', function () {
+        $(this).siblings('.group-select-bd').toggleClass('active');
+      }).on('click', '.group-select-bd > ul > li', actSelect);
+      $sidebar.append($select, $categories);
     });
+
+    $layout.on('click', '.m-items > .m-cart', function () {
+      var $this = $(this),
+          id = $this.data('id');
+      mandy.model.filter.getData(function (data) {
+        data.records.map(function (e, i) {
+          if (e.Id.indexOf(id) >= 0) {
+            // his.push({
+            //   obj: e
+            // });
+            $('page-list').hide();
+            $('page-article').append(mandy.view.filter.tempArticle(e));
+
+            // pageChange( e, '?id='+ id +'' );
+          }
+        });
+      });
+      return false;
+    });
+
+    $layout.on('click', '[data-back]', pageBack);
+    // $(window).on('popstate', popState).trigger('popstate');
   };
   return {
     init: init
