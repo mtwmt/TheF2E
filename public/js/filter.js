@@ -3,7 +3,7 @@
 var mandy = mandy || {};
 mandy.model = mandy.model || {};
 mandy.model.filter = function ($) {
-  var dataCache,
+  var dataCache = {},
       searchData = {
     location: {
       tit: 'Location'
@@ -12,27 +12,34 @@ mandy.model.filter = function ($) {
       tit: 'Categories'
     }
   },
-      getData = function getData(callback) {
-    if (callback) {
-      if (dataCache) {
-        callback(dataCache);
-      } else {
-        $.ajax({
-          url: 'https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97',
-          method: 'get',
-          dataType: 'json',
-          data: {
-            limit: 300
-          },
-          success: function success(res) {
-            dataCache = res.result || {};
-            callback(dataCache);
-          },
-          error: function error(err) {}
+      getData = function getData(callback, obj) {
+    $.ajax({
+      url: 'https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97',
+      method: 'get',
+      dataType: 'json',
+      data: {
+        limit: obj.limit,
+        q: obj.kw || ''
+      },
+      success: function success(res) {
+        res = res || {};
+        dataCache[obj.limit] = dataCache[obj.limit] || [];
+        dataCache[obj.limit] = res.result || {};
+
+        callback({
+          total: dataCache[obj.limit].total,
+          limit: dataCache[obj.limit].limit,
+          data: dataCache[obj.limit].records
         });
-      }
-    }
-    return dataCache;
+      },
+      error: function error(err) {}
+    });
+  },
+      getLoadData = function getLoadData(callback, obj) {
+    obj = obj || {};
+    callback(dataCache[obj.limit], obj.limit);
+
+    console.log('obj', obj);
   },
 
   // 過濾資料表
@@ -40,6 +47,7 @@ mandy.model.filter = function ($) {
     var temp = [];
     temp.location = [];
     temp.categories = [];
+
     getData(function (data) {
       data.records.map(function (e, i) {
         temp.location.push(e.Zone);
@@ -66,6 +74,7 @@ mandy.model.filter = function ($) {
     });
   };
   return {
+    getLoadData: getLoadData,
     getSearchData: getSearchData,
     searchData: searchData,
     getData: getData
@@ -113,9 +122,11 @@ mandy.view.filter = function ($) {
       tempPage = function tempPage(data, num) {
     var currentPage = num || 1,
         pView = 5,
-        totalPage = parseInt(data.length / plist);
-    totalPage == 0 ? totalPage = totalPage : totalPage = totalPage + 1;
 
+    // totalPage = parseInt( data.length / plist );
+    totalPage = parseInt(data.total / plist);
+    totalPage == 0 ? totalPage = totalPage : totalPage = totalPage + 1;
+    console.log('page', data);
     var tempArr = [],
         start = currentPage - (currentPage - 1) % pView,
         limit = Math.min(currentPage - (currentPage - 1) % pView + (pView - 1), totalPage);
@@ -130,11 +141,8 @@ mandy.view.filter = function ($) {
     return ['<div class="m-breadcrumbs">', '<ul>', '<li>', data.Zone, '</li>', '<li>', data.Name, '</li>', '</ul>', '<a href="#" data-back>回上頁</a>', '</div>', '<div class="m-article">', '<figure><img src="', data.Picture1, '" alt=""></figure>', '<div class="m-article-cont">', '<h2>', data.Name, '</h2>', '<div class="organizer">', '<em>說明</em>', '<div class="tags">', '<div class="tag">', data.Ticketinfo, '</div>', '</div>', '</div>', '<div class="info">', '<span>', '<i class="fa fa-map-marker-alt"></i>', '<em>', data.Add, '</em>', '</span>', '<span>', '<i class="far fa-calendar-alt"></i>', '<em>', data.Opentime, '</em>', '</span>', '</div>', '<div class="description">', data.Description, '</div>', '</div>', '</div>'].join('');
   },
       pageList = function pageList(data) {
-    var $page = $('<page-list />'),
-        $results = $(tempResults(data.total));
-    // $categories = $results.find('.tags');
-
-    $page.append($results).appendTo($main);
+    var $page = $('<page-list />');
+    $page.append('<div class="m-items">', '<div class="m-page">').appendTo($main);
     $page.after($('<page-article />'));
   },
       page = function page(data) {
@@ -144,6 +152,7 @@ mandy.view.filter = function ($) {
     };
   };
   return {
+    tempResults: tempResults,
     tempList: tempList,
     tempCart: tempCart,
     tempPage: tempPage,
@@ -156,12 +165,15 @@ mandy.view.filter = function ($) {
 mandy.controller = mandy.controller || {};
 mandy.controller.filter = function ($) {
   var $layout = $('body > .content'),
+      $pageList,
+      $pageArticle,
       $sidebar = $layout.find('.m-sidebar'),
       $select,
       $categories,
       listArr = [],
       his = [],
-      total,
+      limit = 10,
+      key,
       actSelect = function actSelect() {
     var $this = $(this),
         location = $this.text(),
@@ -170,94 +182,112 @@ mandy.controller.filter = function ($) {
     listArr = [];
     $this.parents('.group-select-bd').removeClass('active');
     $select.find('.group-select-hd > span').text($this.text());
-    // idx = locationArr.indexOf( location );
-    // if( idx < 0  ){
-    //   locationArr.push( location );
-    //   $layout.find('.m-results .tags').append(
-    //     '<div class="tag">'+ location +'<i class="far fa-times-circle"></i></div>'
-    //   )
-    // }
 
-    // $layout.find('.m-items').empty();
     $layout.find('.m-results .tags').html('<div class="tag">' + location + '<i class="far fa-times-circle"></i></div>');
     mandy.model.filter.getData(function (data) {
       var cnt;
       data.records.map(function (e, i) {
         if (location.indexOf(e.Zone) >= 0) {
-
           cnt = cnt || 0;
           cnt++;
-          // $layout.find('.m-items').append( $(mandy.view.filter.tempCart( e )) );
-          // $layout.find('.m-items').replaceWith( $(mandy.view.filter.tempList( e )) );
           listArr.push(e);
           $layout.find('.m-results > p > span').text(cnt);
         }
       });
     });
     $layout.find('.m-items').replaceWith($(mandy.view.filter.tempList(listArr)));
-    // $layout.find('.m-page').replaceWith( mandy.view.filter.tempPage( listArr ) );
-    // $layout.find('.m-page').empty();
-    // $('page-list').append(  mandy.view.filter.tempPage( listArr ));
-  },
-      pageChange = function pageChange(obj, url) {
-    history.pushState(obj, '', url);
   },
       pageBack = function pageBack() {
-    $('page-list').show();
-    $('page-article').empty();
-
-    // history.back();
+    $pageList.show();
+    $pageArticle.empty();
     return false;
   },
-      popState = function popState() {
-    // pageBack();
+      showMore = function showMore(pg) {
+    console.log('pg', pg);
+    mandy.model.filter.getData(creatPage, { limit: limit });
+  },
+      creatPage = function creatPage(data) {
+    // limit = limit + 10;
+    if (!$pageList.find('.m-results').length) {
+      $pageList.prepend(mandy.view.filter.tempResults(data.total));
+    };
+
+    $layout.find('.m-items').replaceWith(mandy.view.filter.tempList(data.data));
+    $layout.find('.m-page').replaceWith(mandy.view.filter.tempPage(data));
+
+    // $('page-list').append( 
+    //   mandy.view.filter.tempList( data.data ),
+    //   mandy.view.filter.tempPage( data )
+    // );
+    console.log('limit', limit, data);
   },
       pagination = function pagination() {
     var $this = $(this);
-
-    $this.parents('.m-page').find('a').removeClass('active');
-    $layout.find('.m-items').replaceWith(mandy.view.filter.tempList(listArr, parseInt($(this).data('page')) - 1));
-    $layout.find('.m-page').replaceWith(mandy.view.filter.tempPage(listArr, $(this).data('page')));
+    showMore($this.data('page'));
+    // $this.parents('.m-page').find('a').removeClass('active');
+    // $layout.find('.m-items').replaceWith( mandy.view.filter.tempList( listArr, parseInt( $(this).data('page') ) - 1 ) );
+    // $layout.find('.m-page').replaceWith( mandy.view.filter.tempPage( listArr, $(this).data('page') ) );
 
     return false;
   },
       init = function init() {
-    mandy.model.filter.getData(function (data) {
-      total = data.total;
-      listArr = data.records;
-      mandy.view.filter.pageList(data);
-      $('page-list').append(mandy.view.filter.tempList(listArr), mandy.view.filter.tempPage(listArr));
+    mandy.view.filter.pageList();
 
-      $layout.on('click', '.m-items > .m-cart', function () {
-        var $this = $(this),
-            id = $this.data('id');
-        data.records.map(function (e, i) {
-          if (e.Id.indexOf(id) >= 0) {
+    $pageList = $('page-list');
+    $pageArticle = $('page-article');
 
-            // his.push({
-            //   obj: e
-            // });
-            $('page-list').hide();
-            $('page-article').append(mandy.view.filter.tempArticle(e));
-            // pageChange( e, '?id='+ id +'' );
-          }
-        });
-        return false;
-      }).on('click', '.m-page a', pagination);
-    });
+    mandy.model.filter.getLoadData(function (data, pgkey) {
 
-    mandy.model.filter.getSearchData(function (data) {
-      $select = mandy.view.filter.page(data).select;
-      $categories = mandy.view.filter.page(data).categories;
-      $select.on('click', '.group-select-hd', function () {
-        $(this).siblings('.group-select-bd').toggleClass('active');
-      }).on('click', '.group-select-bd > ul > li', actSelect);
-      $sidebar.append($select, $categories);
-    });
+      console.log('getLoadData', key, limit);
+      // key = data.limit;
+      if (!data) {
+        showMore(1);
+      } else {
+        creatPage(data);
+      }
+    }, { limit: limit });
+
+    // mandy.model.filter.getData(function( data ){
+
+    //   mandy.view.filter.pageList( data );
+    //   creatPage( data );
+    //   // $('page-list').append( 
+    //   //   mandy.view.filter.tempList( listArr ),
+    //   //   mandy.view.filter.tempPage( listArr )
+    //   // );
+
+
+    // },{ limit:limit });
+
+
+    $layout
+    //   .on('click','.m-items > .m-cart', function(){
+    //     var $this = $(this),
+    //         id = $this.data('id');
+    //       data.records.map(function( e,i ){
+    //         if( e.Id.indexOf( id ) >=0 ) {
+    //           $('page-list').hide();
+    //           $('page-article').append( mandy.view.filter.tempArticle( e ) );
+    //         }
+    //       });
+    //     return false;
+    //   })
+    .on('click', '.m-page a', pagination);
+    // mandy.model.filter.getSearchData(function( data ){
+    //     $select = mandy.view.filter.page( data ).select;
+    //     $categories = mandy.view.filter.page( data ).categories;
+    //   $select
+    //       .on('click','.group-select-hd',function(){
+    //         $(this).siblings('.group-select-bd').toggleClass('active');
+    //       })
+    //       .on('click','.group-select-bd > ul > li', actSelect );
+    //   $sidebar.append(
+    //     $select,
+    //     $categories
+    //   );
+    // });
 
     $layout.on('click', '[data-back]', pageBack);
-
-    // $(window).on('popstate', popState).trigger('popstate');
   };
   return {
     init: init
