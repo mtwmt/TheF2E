@@ -1,0 +1,50 @@
+@import url(//fonts.googleapis.com/css?family=Roboto:400,500);
+
+@import 'reset';
+@import 'function';
+@import 'mixin';
+
+
+body,html{
+  position: relative;
+	-webkit-text-size-adjust: 100%;
+	font-family: "Roboto","Microsoft JhengHei", "Apple LiGothic Medium", "sans-serif", "serif";
+	background: #fff;
+}
+html{
+  font-size: 16px;
+}
+
+header{
+  margin-top: rem(20px);
+  text-align: center;
+  .logo{
+    display: inline-block;
+    padding: 0 rem(8px);
+    font-size: rem(20px);
+    font-weight: 500;
+    color: #fff;
+    background: #000;
+    line-height: rem(24px);
+  }
+  h1{
+    font-size: rem(72px);
+    line-height: rem(85px);
+    font-weight: bold;
+  }
+}
+
+.content{
+  width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px; /*設定 Grid 的寬度*/
+  // grid-column-gap: 10px; /* 設定左右間距 */
+  // grid-row-gap: 20px; /* 設定上下間距 */
+  grid-gap: 0;
+  >div{
+    background: #ffc;
+    width: 100%;
+    height: 100px;
+  }
+}
