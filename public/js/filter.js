@@ -24,7 +24,6 @@ mandy.model.filter = function ($) {
       },
       success: function success(res) {
         dataCache = res.result || {};
-        // callback( dataCache ); 
         callback({
           data: dataCache.records,
           total: dataCache.total
@@ -39,14 +38,37 @@ mandy.model.filter = function ($) {
       console.log('noload');
       callback(dataCache);
     } else {
-      console.log('load');
       getData(function (data) {
+        data.location = [];
+        data.categories = [];
+        data.data.map(function (e, i) {
+          data.location.push(e.Zone);
+          data.categories.push(e.Ticketinfo);
+        });
+        // 處理資料表
+        for (var i in searchData) {
+          if (searchData.hasOwnProperty(i)) {
+            searchData[i].list = data[i].filter(function (el, idx, arr) {
+              return arr.indexOf(el) === idx;
+            });
+          }
+        }
+        searchData.categories.list = searchData.categories.list.filter(function (el, idx, arr) {
+          if (el.length > 0) {
+            return el;
+          }
+        });
+        searchData.categories.list.map(function (e, i) {
+          e = e.split(' ');
+          return searchData.categories.list[i] = e[0];
+        });
         callback(data);
       });
     }
   };
   return {
     getData: getData,
+    searchData: searchData,
     getloatData: getloatData
   };
 }(jQuery);
@@ -54,7 +76,21 @@ mandy.model.filter = function ($) {
 mandy.view = mandy.view || {};
 mandy.view.filter = function ($) {
   var $layout = $('body > .content'),
-      plist = 10,
+      plist = 3,
+      tempSelect = function tempSelect(data) {
+    var temp = [];
+    data.list.map(function (e, i) {
+      temp.push('<li>', e, '</li>');
+    });
+    return ['<div class="m-filter">', '<div class="tit">', data.tit, '</div>', '<div class="cont">', '<div class="group-select">', '<div class="group-select-hd">', '<span>地區</span>', '</div>', '<div class="group-select-bd">', '<ul>', temp.join(''), '</ul>', '</div>', '</div>', '</div>', '</div>'].join('');
+  },
+      tempCategories = function tempCategories(data) {
+    var temp = [];
+    data.list.map(function (e, i) {
+      temp.push('<div class="group-checkbox">', '<div data="checkbox-check">', '<input type="checkbox" id="check', i, '" />', '<label for="check', i, '">', e, '</label>', '</div>', '</div>');
+    });
+    return ['<div class="m-filter">', '<div class="tit">', data.tit, '</div>', '<div class="cont">', temp.join(''), '</div>', '</div>'].join('');
+  },
       tempResults = function tempResults(data) {
     return ['<div class="m-results">', '<p>Showing <span>', data, '</span> results by…</p>', '<div class="tags">', '</div>', '</div>'].join('');
   },
@@ -71,12 +107,13 @@ mandy.view.filter = function ($) {
     }
     return ['<div class="m-items">', temp.join(''), '</div>'].join('');
   },
-      tempPage = function tempPage(data, num) {
+
+  // 分頁
+  tempPage = function tempPage(data, num) {
     var currentPage = num || 1,
         pLimit = 5,
         totalPage = parseInt(data / plist); //總頁數
-    totalPage == 0 ? totalPage = totalPage : totalPage = totalPage + 1;
-
+    totalPage % plist == 0 ? totalPage = totalPage : totalPage = totalPage + 1;
     var tempArr = [],
         start = currentPage - (currentPage - 1) % pLimit,
         limit = Math.min(currentPage - (currentPage - 1) % pLimit + (pLimit - 1), totalPage);
@@ -87,14 +124,21 @@ mandy.view.filter = function ($) {
     };
     return ['<div class="m-page">', currentPage <= 1 ? '' : '<span><a href="#" data-page="' + (currentPage - 1) + '"  class="prev"><i class="fas fa-angle-double-left"></i></a></span>', '<ul>', tempArr.join(''), '</ul>', currentPage >= totalPage ? '' : '<span><a href="#" data-page="' + (currentPage + 1) + '" class="next"><i class="fas fa-angle-double-right"></i></a></span>', '</div>'].join('');
   },
-      page = function page() {
-    return {};
+      tempArticle = function tempArticle(data) {
+    return ['<div class="m-breadcrumbs">', '<ul>', '<li>', data.Zone, '</li>', '<li>', data.Name, '</li>', '</ul>', '<a href="#" data-back>回上頁</a>', '</div>', '<div class="m-article">', '<figure><img src="', data.Picture1, '" alt=""></figure>', '<div class="m-article-cont">', '<h2>', data.Name, '</h2>', '<div class="organizer">', '<em>說明</em>', '<div class="tags">', '<div class="tag">', data.Ticketinfo, '</div>', '</div>', '</div>', '<div class="info">', '<span>', '<i class="fa fa-map-marker-alt"></i>', '<em>', data.Add, '</em>', '</span>', '<span>', '<i class="far fa-calendar-alt"></i>', '<em>', data.Opentime, '</em>', '</span>', '</div>', '<div class="description">', data.Description, '</div>', '</div>', '</div>'].join('');
+  },
+      pageSide = function pageSide(data) {
+    return {
+      select: $(tempSelect(data.location)),
+      categories: $(tempCategories(data.categories))
+    };
   };
   return {
     tempResults: tempResults,
     tempList: tempList,
     tempPage: tempPage,
-    page: page
+    tempArticle: tempArticle,
+    pageSide: pageSide
   };
 }(jQuery);
 
@@ -103,27 +147,82 @@ mandy.controller.filter = function ($) {
   var $layout = $('body > .content'),
       $sidebar = $layout.find('.m-sidebar'),
       $main = $layout.find('.m-main'),
+      $pageList = $('<page-list />').appendTo($main),
+      $pageArticle = $('<page-article />').appendTo($main),
       data,
       $select,
       $categories,
+      listArr,
+      showPage = function showPage(item) {
+    console.log('item', item);
+    $main.find('.m-results > p > span').text(item.length);
+    $main.find('.m-items').replaceWith(mandy.view.filter.tempList(item));
+    $main.find('.m-page').replaceWith(mandy.view.filter.tempPage(item.length));
+  },
+      pageBack = function pageBack() {
+    $pageList.show();
+    $pageArticle.empty();
+
+    // history.back();
+    return false;
+  },
+      pageChange = function pageChange() {
+    var $this = $(this),
+        id = $this.data('id');
+
+    listArr.map(function (e, i) {
+      if (e.Id.indexOf(id) >= 0) {
+        $pageList.hide();
+        $pageArticle.append(mandy.view.filter.tempArticle(e));
+      }
+    });
+    return false;
+  },
+      actSelect = function actSelect() {
+    var $this = $(this),
+        location = $this.text(),
+        cnt;
+    listArr = [];
+    $this.parents('.group-select-bd').removeClass('active');
+    $select.find('.group-select-hd > span').text($this.text());
+    $main.find('.m-results .tags').html('<div class="tag">' + location + '<i class="far fa-times-circle"></i></div>');
+    data.map(function (e, i) {
+      if (location.indexOf(e.Zone) >= 0) {
+        cnt = cnt || 0;
+        cnt++;
+        listArr.push(e);
+      }
+    });
+    showPage(listArr);
+  },
       pagination = function pagination() {
-    var $this = $(this);
-
-    $this.parents('.m-page').find('a').removeClass('active');
-    $main.find('.m-items').replaceWith(mandy.view.filter.tempList(data.data, parseInt($(this).data('page')) - 1));
-    $main.find('.m-page').replaceWith(mandy.view.filter.tempPage(data.total, $(this).data('page')));
-
+    $main.find('.m-items').replaceWith(mandy.view.filter.tempList(listArr, parseInt($(this).data('page')) - 1));
+    $main.find('.m-page').replaceWith(mandy.view.filter.tempPage(listArr.length, $(this).data('page')));
     return false;
   },
       init = function init() {
+    var searchData = mandy.model.filter.searchData;
     mandy.model.filter.getloatData(function (res) {
-      data = res;
-      $main.append(mandy.view.filter.tempResults(data.total), mandy.view.filter.tempList(data.data), mandy.view.filter.tempPage(data.total));
+      data = res.data;
+      listArr = data;
+      $select = mandy.view.filter.pageSide(searchData).select.on('click', '.group-select-hd', function () {
+        $(this).siblings('.group-select-bd').toggleClass('active');
+      }).on('click', '.group-select-bd > ul > li', actSelect);
+      $categories = mandy.view.filter.pageSide(searchData).categories;
+      $sidebar.append($select, $categories);
+      $pageList.append(mandy.view.filter.tempResults(listArr.length), mandy.view.filter.tempList(listArr), mandy.view.filter.tempPage(listArr.length));
     });
 
-    $layout.on('click', '.m-page a', pagination);
+    $main.on('click', '.m-items > .m-cart', pageChange).on('click', '.m-page a', pagination).on('click', '.m-results .tag', function () {
+      $(this).remove();
+      $select.find('.group-select-hd > span').text('地區');
+      showPage(data);
+    });
+
+    $layout.on('click', '[data-back]', pageBack);
   };
   return {
+    pagination: pagination,
     init: init
   };
 }(jQuery);
