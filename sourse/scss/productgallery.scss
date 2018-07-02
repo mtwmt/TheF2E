@@ -1,15 +1,18 @@
 @import url(//fonts.googleapis.com/css?family=Roboto:400,500);
-
 @import 'reset';
 @import 'function';
 @import 'mixin';
 
 
+$mainColor: #50E3C2;
+$bgGradient: repeating-linear-gradient(135deg, $mainColor , $mainColor 14px, transparent 14px, transparent 28px);
+
 body,html{
   position: relative;
 	-webkit-text-size-adjust: 100%;
 	font-family: "Roboto","Microsoft JhengHei", "Apple LiGothic Medium", "sans-serif", "serif";
-	background: #fff;
+  background: #fff;
+  *{ box-sizing: border-box; }
 }
 html{
   font-size: 16px;
@@ -23,7 +26,7 @@ html{
     font-weight: 500;
     color: #fff;
     background: #000;
-    line-height: rem(24px);
+    line-height: rem(32px);
   }
   h1{
     font-size: rem(72px);
@@ -41,14 +44,59 @@ html{
   grid-template-columns: repeat(8, 120px);
   > div{
     position: relative;
-    overflow: hidden;
+    .info{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      &:before{
+        position: absolute;
+        content: attr(data-num);
+        font-size: rem(48px);
+        font-weight: bold;
+      }
+      &:after{
+        position: absolute;
+        content: attr(data-txt);
+        font-size: rem(24px);
+        font-style: italic;
+        font-weight: bold;
+        line-height: rem(28px);
+        white-space: nowrap;
+      }
+    }
+    h2{
+      position: absolute;
+      z-index: 5;
+      font-size: rem(48px);
+      font-weight: bold;
+      color: #000;
+      text-shadow: 0px rem(-16px) 0px rgba(#000, .3), 0px rem(-26px) 0px rgba(#000, .1);
+    }
+    figure{
+      z-index: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
     img{
+      position: relative;
       width: 100%;
       object-fit: cover;
     }
+    &:before,&:after{ 
+      content: '';
+      position: absolute;
+      box-sizing: border-box; 
+    }
+    &:not(:first-child){
+      &:before{
+        border: rem(20px) solid $mainColor;
+      }
+    }
   }
-  
-  
   .hd{
     grid-row: 1 / span 1;
     grid-column: 3 / span 4;
@@ -56,65 +104,274 @@ html{
   .item1{
     grid-row: 3 / span 4;
     grid-column: 1 / span 4;
+    .info{
+      &:before{
+        top: 100%;
+        left: 0;
+      }
+      &:after{
+        left: 100%;
+        top: 75%;
+        transform-origin: left top;
+        transform: translate(rem(28px) ,0%) rotate(90deg);
+      }
+    }
+    h2{
+      left: 0;
+      top: -3%;
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%);
+    }
+    &:before{
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 50%;
+      transform: translate( 25%,-25% );
+    }
+    &:after{
+      z-index: 2;
+      bottom: 0;
+      left: 0;
+      width: 50%;
+      height: 25%;
+      transform: translate( 25%,50% );
+      background: $bgGradient;
     }
   }
   .item2{
     grid-row: 4 / span 2;
     grid-column: 6 / span 2;
+    .info{
+      &:before{
+        top: -50%;
+        right: -50%;
+      }
+      &:after{
+        bottom: 100%;
+        z-index: 6;
+        right: 50%;
+      }
+    }
+    h2{
+      top: calc(100% + 20px);
+      left: 50%;
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%);
+    }
+    &:before{
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate( 50%,-50% );
+    }
+    &:after{
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate( 25%,-25% );
+      background: $mainColor;
     }
   }
   .item3{
     grid-row: 9 / span 2;
     grid-column: 1 / span 4;
+    .info{
+      &:before{
+        left: 100%;
+        top: 100%;
+      }
+      &:after{
+        top: 100%;
+        right: 50%;
+      }
+    }
+    h2{
+      bottom: 100%;
+      right: 0;
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%);
+    }
+    &:before{
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      transform: translate(25%, 25%);
+    }
+    &:after{
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      transform: translate( 0%,-25% );
+      background: $mainColor;
     }
   }
   .item4{
     grid-row: 9 / span 4;
     grid-column: 7 / span 2;
+    .info{
+      &:before{
+        bottom: 0;
+        right: 100%;
+      }
+      &:after{
+        bottom: 102%;
+        right: 30%;
+        transform: rotate(90deg);
+        transform-origin: right bottom;
+      }
+    }
+    h2{
+      right: 100%;
+      bottom: 100%;
+      transform-origin: right bottom;
+      transform: rotate(270deg);
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%) scale(1.3);
     }
-    
+    &:before{
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform: translate(-25%, -50%);
+    }
+    &:after{
+      z-index: 2;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25%;
+      transform: translate( 0%,50% );
+      background: $bgGradient;
+    }
   }
   .item5{
     grid-row: 13 / span 2;
     grid-column: 3 / span 2;
+    .info{
+      &:before{
+        bottom: 0;
+        left: -50%;
+      }
+      &:after{
+        top:0;
+        left: 100%;
+      }
+    }
+    h2{
+      right: 65%;
+      bottom: 50%;
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%) scale(1.3) scaleX(-1);
+    }
+    &:before{
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform: translate(-50%, 50%);
+    }
+    &:after{
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform: translate( -75%, -50% );
+      background: $bgGradient;
     }
   }
   .item6{
     grid-row: 15 / span 4;
     grid-column: 5 / span 4;
+    .info{
+      &:before{
+        bottom: 50%;
+        right: 100%;
+      }
+      &:after{
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+    h2{
+      bottom: 100%;
+      right: 0;
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%);
+    }
+    &:before{
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform: translate(0%, 25%);
+    }
+    &:after{
+      bottom: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+      transform: translate( -25%,0% );
+      background: $mainColor;
     }
   }
   .item7{
     grid-row: 17 / span 4;
     grid-column: 1 / span 2;
+    .info{
+      &:before{
+        bottom: 0;
+        right: -50%;
+        z-index: 5;
+      }
+      &:after{
+        left: 0;
+        bottom: 100%;
+      }
+    }
+    h2{
+      left: 100%;
+      bottom: 100%;
+      transform-origin: left bottom;
+      transform: rotate(90deg);
+    }
     img{
-      position: relative;
       top: 50%;
       transform: translateY(-50%) scale(1.3);
+    }
+    &:before{
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate(25%, -12.5%);
+    }
+    &:after{
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform: translate( 50%,0% );
+      background: $mainColor;
     }
   }
 }
