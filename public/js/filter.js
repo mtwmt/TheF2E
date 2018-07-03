@@ -110,6 +110,7 @@ mandy.view.filter = function ($) {
 
   // 分頁
   tempPage = function tempPage(data, num) {
+    console.log('pg', data);
     var currentPage = num || 1,
         pLimit = 5,
         totalPage = parseInt(data / plist); //總頁數
@@ -154,7 +155,6 @@ mandy.controller.filter = function ($) {
       $categories,
       listArr,
       showPage = function showPage(item) {
-    console.log('item', item);
     $main.find('.m-results > p > span').text(item.length);
     $main.find('.m-items').replaceWith(mandy.view.filter.tempList(item));
     $main.find('.m-page').replaceWith(mandy.view.filter.tempPage(item.length));
@@ -196,12 +196,15 @@ mandy.controller.filter = function ($) {
     showPage(listArr);
   },
       pagination = function pagination() {
+
     $main.find('.m-items').replaceWith(mandy.view.filter.tempList(listArr, parseInt($(this).data('page')) - 1));
     $main.find('.m-page').replaceWith(mandy.view.filter.tempPage(listArr.length, $(this).data('page')));
+
     return false;
   },
       init = function init() {
     var searchData = mandy.model.filter.searchData;
+
     mandy.model.filter.getloatData(function (res) {
       data = res.data;
       listArr = data;
@@ -216,7 +219,8 @@ mandy.controller.filter = function ($) {
     $main.on('click', '.m-items > .m-cart', pageChange).on('click', '.m-page a', pagination).on('click', '.m-results .tag', function () {
       $(this).remove();
       $select.find('.group-select-hd > span').text('地區');
-      showPage(data);
+      listArr = data;
+      showPage(listArr);
     });
 
     $layout.on('click', '[data-back]', pageBack);
