@@ -1,0 +1,34 @@
+{
+  "cover" : "images/comicviewer/comic_cover.png",
+  "comic":[
+    {
+      "chapter": "Chapter 1: The F2E Challenge Start!",
+      "list" : [
+        { "url": "images/comicviewer/storyboard-1.png" },
+        { "url": "images/comicviewer/storyboard-2.png" },
+        { "url": "images/comicviewer/storyboard-3.png" },
+        { "url": "images/comicviewer/storyboard-4.png" },
+        { "url": "images/comicviewer/storyboard-5.png" },
+        { "url": "images/comicviewer/storyboard-6.png" },
+        { "url": "images/comicviewer/storyboard-7.png" },
+        { "url": "images/comicviewer/storyboard-8.png" },
+        { "url": "images/comicviewer/storyboard-9.png" },
+        { "url": "images/comicviewer/storyboard-10.png" },
+        { "url": "images/comicviewer/storyboard-11.png" },
+        { "url": "images/comicviewer/storyboard-12.png" }
+      ]
+    },
+    {
+      "chapter": "Chapter 2: Todo List is Going Crazy!",
+      "list" : [
+        {"url":"images/comicviewer/storyboard-11.png"},
+        {"url":"images/comicviewer/storyboard-12.png"}
+      ]
+    }
+  ],
+  "ad": [
+    { "url": "images/comicviewer/ad-1.png" },
+    { "url": "images/comicviewer/ad-2.png" },
+    { "url": "images/comicviewer/ad-3.png" }
+  ]
+}

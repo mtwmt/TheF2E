@@ -27,6 +27,39 @@
   }
 }
 
+@mixin triangle ($size, $color, $direction) {
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+    @if $direction == top{              //上
+        border-width:0px $size/2 $size/2 $size/2;
+        border-bottom-color:$color;
+    }@else if $direction == bottom{     //下
+        border-width:$size/2 $size/2 0px $size/2 ;
+        border-top-color:$color;
+    }@else if $direction == left{       //左
+        border-width:$size/2 $size/2 $size/2 0px;
+        border-right-color:$color;
+    }@else if $direction == right{      //右
+        border-width:$size/2 0px $size/2 $size/2;
+        border-left-color:$color;
+    }@else if $direction == top_left{   //左上
+        border-width:$size $size $size 0px;
+        border-top-color:$color;
+    }@else if $direction == top_right{  //右上
+        border-width:$size 0px $size $size;
+        border-top-color:$color;
+    }@else if $direction == bottom_left{    //左下
+        border-width:$size $size $size 0px;
+        border-bottom-color:$color;
+    }@else if $direction == bottom_right{   //右下
+        border-width:$size 0px $size $size;
+        border-bottom-color:$color;
+    }
+}
+
+
 // animation
 @mixin animation($animation...) {
   -o-animation: $animation;
