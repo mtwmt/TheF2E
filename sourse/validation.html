@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>week6-validation</title>
+  <link rel="stylesheet" href="css/validation.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+</head>
+<body>
+  <header></header>
+  <page-step1>
+    <div class="content">
+      <div class="step">
+        <ul>
+          <li class="now"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="hd">
+        <h2>Create Account</h2>
+        <p>Glad to see you here!</p>
+      </div>
+      <div class="form">
+        <div class="row">
+          <div class="col-12">
+            <div class="field" data-verify="mail" data-msg="INVALID EMAIL">
+              <label for="">Account</label>
+              <input type="text" required="" placeholder="example@email.com">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="field" data-verify='password' data-min="8" data-msg="MINIMUM 8 CHARACTERS">
+              <label for="">Password</label>
+              <input type="password" required="" >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="field" data-verify="confirm" data-msg="NOT MATCH">
+              <label for="">Comfirm Password</label>
+              <input type="password" required="" >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" data-submit>SUBMIT & NEXT</a>
+      </div>
+    </div>
+  </page-step1>
+  <page-step2>
+    <div class="content">
+      <div class="step">
+        <ul>
+          <li class="check"></li>  
+          <li class="now"></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="hd">
+        <h2>General Infomation</h2>
+        <p>Tell us who you are!</p>
+      </div>
+      <div class="form">
+        <div class="row">
+          <div class="col-6">
+            <div class="field">
+              <label for="">Name <span>(optional)</span></label>
+              <input type="text" required="" placeholder="Example Name">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="field" data-verify="mobile" data-msg="INVALID EMAIL">
+              <label for="">Phone*</span></label>
+              <input type="tel" required="" placeholder="0912456789">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="">Birth Date <span>(optional)</span></label>
+            <div class="col-4">
+              <div class="group group-select">
+								<select name="" id="year" data-from="1900" data-to="2018">
+									<option selected value="">YYYY</option>
+                </select>
+                <i class="fas fa-sort"></i>
+							</div>
+            </div>
+            <div class="col-4">
+              <div class="group group-select">
+								<select name="" id="month" data-from="1" data-to="12">
+									<option selected value="">MM</option>
+                </select>
+                <i class="fas fa-sort"></i>
+							</div>
+            </div>
+            <div class="col-4">
+              <div class="group group-select">
+								<select name="" id="date" data-from="1" data-to="31">
+									<option selected value="">DD</option>
+                </select>
+                <i class="fas fa-sort"></i>
+							</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="">Address*</label>
+            <div class="col-6">
+              <div class="group group-select">
+								<select name="" id="city">
+									<option selected value="">City</option>
+                </select>
+                <i class="fas fa-sort"></i>
+							</div>
+            </div>
+            <div class="col-6">
+              <div class="group group-select">
+								<select name="" id="dist">
+									<option selected value="">Dist</option>
+                </select>
+                <i class="fas fa-sort"></i>
+							</div>
+            </div>
+            <div class="col-12 field" data-verify="addr" data-msg="REQUIRED FILED">
+              <input type="text" required="" placeholder="Address Detail">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" data-submit>SUBMIT & NEXT</a>
+      </div>
+    </div>
+  </page-step2>
+  <page-step3>
+    <div class="content">
+      <div class="step">
+        <ul>
+          <li class="check"></li> 
+          <li class="check"></li>
+          <li class="now"></li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="hd">
+        <h2>Update Profile Picture</h2>
+        <p>We wanna know you more!</p>
+      </div>
+      <div class="form">
+        <div class="group-update">
+          <label for="imgfile">
+            <i class="fas fa-images"></i>
+            <div class="text">
+              <strong>UPLOAD UP TO 3 PHOTOS</strong>
+              <span>MAX SIZE: 150*150px</span>
+            </div>
+          </label>
+          <input id="imgfile" type="file" multiple >
+        </div>
+        <div class="alert-msg">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p></p>
+        </div>
+        <!-- <div class="add-images" data-verify="image">
+          <figure>
+            <img src="https://fakeimg.pl/140x140/">
+          </figure>
+          <figure>
+              <img src="https://fakeimg.pl/140x140/">
+            </figure>
+          <figure>
+            <img src="https://fakeimg.pl/140x140/">
+          </figure>
+        </div> -->
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" data-submit>SUBMIT & NEXT</a>
+      </div>
+    </div>
+  </page-step3>
+  <page-step4>
+    <div class="content">
+      <div class="step">
+        <ul>
+          <li class="check"></li> 
+          <li class="check"></li>
+          <li class="check"></li>
+          <li class="now"></li>
+        </ul>
+        
+      </div>
+      <div class="hd">
+        <h2>Payment Method</h2>
+        <p>Add your credit card infomation! </p>
+      </div>
+      <div class="form">
+        <div class="row">
+          <div class="col-12">
+            <div class="field" data-verify="credit" data-msg="INVALID NUMBER">
+              <label for="">Card Number</label>
+              <input type="text" required="" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="field">
+              <label for="">Cardholder Name</label>
+              <input type="text" required="" placeholder="EXAMPLE NAME">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="field" >
+              <label for="">Bank Name</label>
+              <input type="text" required="" placeholder="EXAMPLE BANK">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="field" >
+              <label for="">CVV</label>
+              <input type="text" required="" placeholder="123">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="field">
+              <label for="">Expire Date</label>
+              <div class="group group-select">
+                <select name="" id="month" data-from="1" data-to="12">
+                  <option selected value="">MM</option>
+                </select>
+                <i class="fas fa-sort"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="field">
+              <label for="">&nbsp;</label>
+              <div class="group group-select">
+                <select name="" id="date" data-from="1" data-to="31">
+                  <option selected value="">DD</option>
+                </select>
+                <i class="fas fa-sort"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btns">
+        <a href="#" class="btn" data-submit>DONE</a>
+      </div>
+    </div>
+  </page-step4>
+  <page-step5>
+    <div class="content">
+      <div class="step">
+        <ul>
+          <li class="check"></li> 
+          <li class="check"></li>
+          <li class="check"></li>
+          <li class="check"></li>
+        </ul>
+      </div>
+      <div class="hd">
+        <h2>Congratulations</h2>
+        <p>Now you’re one of us! </p>
+      </div>
+      <div class="success">
+        <i class="fas fa-smile"></i>
+        <p>Redirected to homepage after 5 seconds…</p>
+      </div>
+    </div>
+  </page-step5>
+</body>
+</html>
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script src="//mtwmt.github.io/framework/public/js/validate.js"></script> -->
+<script src="js/validate.js"></script>
+<script src="js/validation.js"></script>
+
+
+<script>
+
+  
+$(window).ready(function(){
+
+  
+});
+</script>
