@@ -1,0 +1,360 @@
+@import 'layout';
+@import 'checkbox';
+
+body,html{
+  background: #fff;
+  *{ box-sizing: border-box; }
+}
+
+$mainColor: #0275D8;
+
+
+// page-step1,
+page-step4,page-step2,page-step3,page-step5{
+  display: none;
+}
+
+.content{
+  @include maxWidth( 460px );
+  padding: rem(40px) 0;
+  border-top: rem(3px) solid $mainColor;
+
+  .hd{
+    margin: rem(50px) 0 rem(30px) 0;
+    text-align: center;
+    font-weight: 300;
+    h2{
+      font-size: rem(48px);
+      line-height: rem(58px);
+    }
+    p{
+      font-size: rem(24px);
+      line-height: rem(28px);
+    }
+  }
+}
+
+.step{
+  position: relative;
+  @include maxWidth(400px);
+  overflow: hidden;
+  ul{
+    display: flex;
+    justify-content: space-between;
+    >li{
+      position: relative;
+      width: rem(16px);
+      height: rem(16px);
+      color: $mainColor;
+      border-radius: 50%;
+      border: rem(2px) solid #BEE1FF;
+      
+      &:not(:first-child):before{
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        right: 100%;
+        transform: translateY(-50%);
+        content: '';
+        width: (rem(400px) / 4) + rem(13px);
+        height: rem(2px);
+        background: #BEE1FF;
+      }
+      &.now{
+        width: rem(16px);
+        height: rem(16px);
+        border: 0;
+        background: $mainColor;
+        &:after{
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate( -50%, -50%);
+          margin: auto;
+          content: '';
+          width: rem(8px);
+          height: rem(8px);
+          border: rem(2px) solid #fff;
+          border-radius: 50%;  
+        }
+      }
+      &.check{
+        width: rem(16px);
+        height: rem(16px);
+        border: 0;
+        &:after{
+          // position: absolute;
+          // top: rem(-2px);
+          // left: rem(-2px);
+          content: "\f058";
+          font-family: "Font Awesome\ 5 Free";
+          font-weight: 900;
+          
+
+          // border: rem(2px) solid $mainColor;
+          // border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+
+.field{
+  position: relative;
+  margin-bottom: rem(20px);
+  label{
+    display: block;
+    font-size: rem(20px);
+    line-height: rem(36px);
+    >span{
+      font-size: rem(16px);
+      font-family: 300;
+    }
+  }
+  input{
+    width: 100%;
+    padding: 0 rem(16px);
+    font-size: rem(20px);
+    line-height: rem(52px);
+    height: rem(52px);
+    border: rem(2px) solid #000;
+    border-radius: rem(8px);
+    &::placeholder{
+      color: #999;
+    }
+  }
+  select{
+    outline:none;
+    width: 100%;
+    height: rem(52px);
+    padding: 0 rem(16px);
+    font-size: rem(20px);
+    font-family: "微軟正黑體";
+    border: rem(2px) solid #000;
+    border-radius: rem(8px);
+    margin-bottom: rem(20px);
+    color: #999;
+
+    appearance:none; 
+    -moz-appearance:none; 
+    -webkit-appearance:none; 
+    &:after{
+      content: "123";
+      display: block;
+    }
+    option{
+      color: #000;
+      font-family: "微軟正黑體";
+    }
+  }
+  &:after{
+    display: none;
+    position: absolute;
+    top: rem(54px);
+    right: rem(16px);
+    content: "\f071";
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+    font-size: rem(20px);
+    color: #000;
+  }
+  &.master:after{
+    display: block;
+    top: rem(47px);
+    font-size: rem(30px);
+    font-family: "Font Awesome 5 Brands";
+    font-weight: normal;
+    content: "\f1f1";
+  }
+  &.visa:after{
+    display: block;
+    top: rem(47px);
+    font-size: rem(30px);
+    font-family: "Font Awesome 5 Brands";
+    font-weight: normal;
+    content: "\f1f0";
+  }
+  &.jcb:after{
+    display: block;
+    top: rem(47px);
+    font-size: rem(30px);
+    font-family: "Font Awesome 5 Brands";
+    font-weight: normal;
+    content: "\f24b";
+  }
+  &.error{
+    &:after{
+      display: block;
+      color: #F5A623;
+    }
+    input{
+      position: relative;
+      border: rem(2px) solid #F5A623;
+      
+    }
+    .err-msg{
+      position: absolute;
+      left: calc(100% + 1rem);
+      top: rem(50px);
+      display: inline-block;
+      padding: 0 rem(8px);
+      font-size: rem(14px);
+      line-height: rem(26px);
+      white-space: nowrap;
+      color: #fff;
+      background: #F5A623;
+      border-radius: rem(4px);
+      &:before{
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        content: '';
+        @include triangle( rem(12px), #F5A623, left );
+      }
+    }
+
+  }
+  
+}
+
+.group-update{
+  position: relative;
+  margin-bottom: rem(30px);
+  width: 100%;
+  height: rem(140px);
+  border: rem(2px) solid #000;
+  border-radius: rem(8px);
+  label{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+    display: flex;
+    color: #9B9B9B;
+    line-height: rem(24px);
+    white-space: nowrap;
+    i{
+      display: block;
+      margin-right: rem(16px);
+      font-size: rem(48px);
+    }
+    strong{
+      display: block;
+      font-size: rem(20px);
+    }
+    span{
+      display: block;
+    }
+  }
+  input[type=file]{
+    display: none;
+    height: rem(140px);
+  }
+}
+
+.group-select{
+  position: relative;
+  i{
+    position: absolute;
+    top: rem(18px);
+    right: rem(16px);
+  }
+}
+
+.alert-msg{
+  display: none;
+  margin-bottom: rem(30px);
+  border-radius: rem(8px);
+  text-align: center;
+  font-size: rem(20px);
+  line-height: rem(52px);
+  color: #fff;
+  background: #F5A623;
+  .fas{ margin-right: rem(6px); }
+  p{ display: inline-block; }
+}
+
+.add-images{
+  display: grid;
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: rem(140px) 1fr rem(140px);
+  
+  figure{
+    position: relative;
+    margin: 0 auto;
+    border-radius: rem(8px);
+    text-align: center;
+    width: rem(140px);
+    height: rem(140px);
+    overflow: hidden;
+    cursor: pointer;
+    &:after{
+      transition: .3s;
+      content: '\f2ed';
+      position: absolute;
+      left: 0;
+      bottom: rem(-52px);
+      width: 100%;
+      font-family: "Font Awesome\ 5 Free";
+      font-weight: 900;
+      font-size: rem(20px);
+      text-align: center;
+      color: #fff;
+      line-height: rem(52px);
+      background: $mainColor;
+    }
+    &:hover{
+      &:after{
+        bottom: 0;
+      }
+    }
+    img{}
+  }
+}
+
+.btn{
+  margin-top: rem(40px);
+  width: 100%;
+  text-align: center;
+  font-size: rem(20px);
+  color: #fff;
+  background: #BEE1FF;
+  line-height: rem(52px);
+  border-radius: rem(8px);
+}
+
+.row{ 
+  @extend %clear; 
+  width: calc( 100% + 1rem );
+  margin-left: -0.5rem;
+  > .field > label{
+    padding-left: rem(8px);
+    padding-right: rem(8px);
+  }
+}
+@for $i from 1 through 12{
+  
+	.col-#{$i}{
+    float:left;
+    width: ( (100 / 12) * $i ) + 0% ;
+    padding-left: rem(8px);
+    padding-right: rem(8px);
+    
+	}
+}
+
+
+.success{
+  text-align: center;
+  i{
+    font-size: rem(230px);
+    color: #BEE1FF;
+  }
+  p{
+    margin-top: rem(50px);
+    font-size: rem(20px);
+    font-style: italic;
+    color: $mainColor;
+  }
+}
