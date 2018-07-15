@@ -113,10 +113,10 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="field">
-            <label for="">Address*</label>
-            <div class="col-6">
+        <div class="row fix">
+          <div class="col-6">
+            <div class="field">
+              <label for="">Address*</label>
               <div class="group group-select">
 								<select name="" id="city">
 									<option selected value="">City</option>
@@ -124,20 +124,28 @@
                 <i class="fas fa-sort"></i>
 							</div>
             </div>
-            <div class="col-6">
+          </div>
+          <div class="col-6">
+            <div class="field">
+              <label for="">&nbsp;</label>
               <div class="group group-select">
-								<select name="" id="dist">
-									<option selected value="">Dist</option>
+                <select name="" id="dist">
+                  <option selected value="">Dist</option>
                 </select>
                 <i class="fas fa-sort"></i>
-							</div>
+              </div>
             </div>
-            <div class="col-12 field" data-verify="addr" data-msg="REQUIRED FILED">
+          </div>
+          <div class="col-12">
+            <div class="field" data-verify="addr" data-msg="REQUIRED FILED">
               <input type="text" required="" placeholder="Address Detail">
             </div>
           </div>
+
+          </div>
         </div>
-      </div>
+
+        
       <div class="btns">
         <a href="#" class="btn" data-submit>SUBMIT & NEXT</a>
       </div>

@@ -10,7 +10,7 @@ $mainColor: #0275D8;
 
 
 // page-step1,
-page-step4,page-step2,page-step3,page-step5{
+page-step1,page-step4,page-step3,page-step5{
   display: none;
 }
 
@@ -186,11 +186,11 @@ page-step4,page-step2,page-step3,page-step5{
     &:after{
       display: block;
       color: #F5A623;
+      
     }
     input{
       position: relative;
       border: rem(2px) solid #F5A623;
-      
     }
     .err-msg{
       position: absolute;
@@ -211,12 +211,23 @@ page-step4,page-step2,page-step3,page-step5{
         transform: translateY(-50%);
         content: '';
         @include triangle( rem(12px), #F5A623, left );
+        
+      }
+      
+    }
+    .fix &{
+      &:after{
+        top: rem(18px);
+      }
+      .err-msg{
+        top: rem(16px);
       }
     }
-
   }
   
 }
+
+
 
 .group-update{
   position: relative;
