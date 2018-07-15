@@ -8,9 +8,16 @@ body,html{
 
 $mainColor: #0275D8;
 
+%creditIcon {
+  display: block;
+  top: rem(47px);
+  font-size: rem(30px);
+  font-family: "Font Awesome 5 Brands";
+  font-weight: normal;
+}
 
 // page-step1,
-page-step2,page-step4,page-step3,page-step5{
+page-step2,page-step3,page-step4,page-step5{
   display: none;
 }
 
@@ -159,34 +166,37 @@ page-step2,page-step4,page-step3,page-step5{
     color: #000;
   }
   &.master:after{
-    display: block;
-    top: rem(47px);
-    font-size: rem(30px);
-    font-family: "Font Awesome 5 Brands";
-    font-weight: normal;
+    @extend %creditIcon;
     content: "\f1f1";
   }
   &.visa:after{
-    display: block;
-    top: rem(47px);
-    font-size: rem(30px);
-    font-family: "Font Awesome 5 Brands";
-    font-weight: normal;
+    @extend %creditIcon;
     content: "\f1f0";
   }
   &.jcb:after{
-    display: block;
-    top: rem(47px);
-    font-size: rem(30px);
-    font-family: "Font Awesome 5 Brands";
-    font-weight: normal;
+    @extend %creditIcon;
     content: "\f24b";
+  }
+  &.amex:after{
+    @extend %creditIcon;
+    content: "\f1f3";
+  }
+  &.diners:after{
+    @extend %creditIcon;
+    content: "\f24c";
+  }
+  &.discover:after{
+    @extend %creditIcon;
+    content: "\f1f2";
+  }
+  &.unionpay:after{
+    @extend %creditIcon;
+    content: "";
   }
   &.error{
     &:after{
       display: block;
       color: #F5A623;
-      
     }
     input{
       position: relative;
