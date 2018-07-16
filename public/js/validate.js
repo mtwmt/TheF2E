@@ -66,10 +66,22 @@
       credit: function credit(obj, callback) {
         var val = obj.val,
             val = val.replace(/\s/g, '');
-        if (/^5[1-5][0-9]{14}$/.test(val)) {
-          callback('master');
-        } else if (/^4[0-9]{12}(?:[0-9]{3})?$/.test(val)) {
+
+        // regex credit
+        if (/^4[0-9]{12}(?:[0-9]{3})?$/.test(val)) {
           callback('visa');
+        } else if (/^5[1-5][0-9]{14}$/.test(val)) {
+          callback('master');
+        } else if (/^35(?:2[89]|[3-8]\d)\d{12}$/.test(val)) {
+          callback('jcb');
+        } else if (/^3[47][0-9]{13}$/.test(val)) {
+          callback('amex');
+        } else if (/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/.test(val)) {
+          callback('diners');
+        } else if (/^6(?:011\d\d|5\d{4}|4[4-9]\d{3}|22(?:1(?:2[6-9]|[3-9]\d)|[2-8]\d\d|9(?:[01]\d|2[0-5])))\d{10}$/.test(val)) {
+          callback('discover');
+        } else if (/^62[0-5]\d{13,16}$/.test(val)) {
+          callback('unionpay');
         } else {
           callback('error');
         }
@@ -79,15 +91,20 @@
       var $self = $(this),
           cls = options.verifycls,
           val = e.target.value,
-          msg = $self.data('msg') || $self.find('[data-msg]').data('msg');
+
+      // val  = $self.val(),
+      msg = $self.data('msg') || $self.find('[data-msg]').data('msg');
 
       $self.removeClass().addClass(cls);
 
       for (var i in check) {
         if (i.indexOf($self.data('verify')) >= 0) {
           if (i === 'credit') {
-            val = val.replace(/\s/g, '');
-            val = val.replace(/(\d{4})/g, '$1 ');
+            // val = val.replace(/\s/g, '');
+            // val = val.replace(/(\d{4})/g, '$1 ');
+
+            val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
+
             $self.find('input').val(val);
           }
 

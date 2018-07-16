@@ -9,7 +9,6 @@ mandy.model.validation = (function($){
       method: 'get',
       dataType: 'json',
       success: function( data ){
-        // console.log( data );
         obj.success(data);
       }
     });
@@ -83,7 +82,6 @@ mandy.controller.validation = (function($){
     });
 
     $('[data-from][data-to]').each(function( i,e ){
-      console.log( $(e).data('from') )
       var i = $(e).data('from');
       for( i; i<= $(e).data('to'); i++){
         $(e).append(
@@ -159,7 +157,6 @@ mandy.controller.validation = (function($){
     });
 
     $('page-step3').on('click','[data-submit]',function(){
-      console.log( 'submit',addFile )
       if( !addFile.length ){
         $alert.show().find('p').text('Update Your Photo');
       }else if( addFile.length === 3 ){
