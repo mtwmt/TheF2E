@@ -1,0 +1,242 @@
+// @import 'layout';
+@import 'reset';
+@import 'function';
+@import 'mixin';
+
+%center{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+html,body{
+  font-family: "Roboto","Microsoft JhengHei", "Apple LiGothic Medium", "sans-serif", "serif";
+  background: #250060;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.main{
+  @include maxWidth(1024px);
+  height: rem(768px);
+  display: flex;
+  .topic,.content,.select{
+    position: relative;
+    height: 100%;
+    flex:1 0;
+  }
+}
+
+
+
+.topic{
+  width: rem(300px);
+  h1{
+    margin-bottom: rem(30px);
+    font-size: rem(48px);
+    font-style: italic;
+    font-weight: bold;
+    line-height: rem(54px);
+    color: #ff0093;
+  }
+  .tip{
+    display: inline-block;
+    padding: 0 1rem;
+    margin-bottom: rem(8px);
+    text-align: center;
+    line-height: rem(28px);
+    background-color: #8000ff;
+  }
+  .lv{
+    font-size: rem(36px);
+    font-weight: bold;
+    line-height: rem(48px);
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: #8000ff;
+  }
+  .figure{
+    position: absolute;
+    left:0;
+    bottom: rem(220px);
+    text-align: center;
+  }
+  .msg{
+    // position: relative;
+    position: absolute;
+    left: 0;
+    bottom: 0; 
+    width: rem(300px);
+    height: rem(200px); 
+    overflow: hidden;
+    svg{
+      // position: absolute;
+      width: rem(300px);
+      height: rem(300px);
+      
+      stroke: #ff0093;
+      fill: none;
+      stroke-width: 1px;
+    }
+    p{
+      position: absolute;
+      left: 0;
+      top: rem(30px);
+      padding: rem(30px);
+      line-height: rem(24px);
+      color: #fff;
+    }
+  }
+}
+
+
+
+.content{
+  padding: 0 rem(16px);
+  display: flex;
+  flex-wrap: wrap;
+  // width: rem(300px);
+}
+
+section{
+  display: flex;
+  // margin-bottom: rem(16px);
+  
+}
+.theme{
+  width: rem(100px);
+  height: rem(100px);
+  margin-right: 1rem;
+  .basics &{
+    background-image: url('../images/skilltree/img-planet-basics.png');
+  }
+  .css &{
+    background-image: url('../images/skilltree/img-planet-css.png');
+  }
+  .js &{
+    background-image: url('../images/skilltree/img-planet-js.png');
+    
+  }
+  .managers &{
+    background-image: url('../images/skilltree/img-planet-managers.png');
+  }
+}
+
+
+.component{
+  display: flex;
+  flex-wrap: wrap;
+  width: calc( 100% - 7.25rem );
+  .js &{
+    
+      flex-wrap: wrap-reverse;
+    
+  }
+  .items{
+    margin: 0 rem(2px) ;
+    color: #fff;
+    .icon{
+      box-sizing: border-box;
+      margin-bottom: rem(4px);
+      width: rem(60px);
+      height: rem(60px);
+      text-align: center;
+      background-color: #211a2c;
+      border: 1px solid #211a2c;
+      cursor: pointer;
+      i{
+        line-height: rem(58px);
+        font-size: rem(44px);
+      }
+    }
+    .val{
+      width: rem(60px);
+      text-align: center;
+      p{
+        font-size: rem(14px);
+        line-height: rem(18px);
+        i{ 
+          font-size: rem(18px);
+          line-height: rem(18px);
+          vertical-align: top;
+        }
+        span{
+          display: inline-block;
+          vertical-align: top;
+        }
+      }
+    }
+    &.on{
+      .icon{
+        background-color: #6900D1;
+        border-color: #ff0093;
+      }
+    }
+  }
+}
+
+
+.select{
+  width: rem(300px);
+  text-align: center;
+  border: rem(2px) solid #ff0093;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  .tit,.cont{
+    // position: relative;
+    // height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+  }
+  .tit{
+    background: #8D00FF;
+    i{
+      font-size: rem(110px); 
+    }
+    p{
+      display: inline-block;
+      font-size: rem(36px);
+      font-weight: bold;
+      line-height: rem(48px);
+    }
+  }
+  .cont{
+    background: #6900D1;
+    
+    .recommended,.option{
+      .hd{
+        i{
+          font-size: rem(40px);
+        }
+        p{
+          line-height: rem(36px);
+        }
+      }
+      ul{
+        li{
+          margin-bottom: rem(4px);
+          border: rem(2px) solid #fff;
+          line-height: rem(36px);
+          width: rem(196px);
+          
+        }
+      }
+    }
+    div:last-child{
+      margin-top: rem(32px);
+    }
+  }
+}
