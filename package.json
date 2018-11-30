@@ -7,7 +7,6 @@
   },
   "author": "Mandy",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "browser-sync": "^2.24.4",
@@ -19,5 +18,15 @@
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "node-font-awesome": "^1.0.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtwmt/TheF2E.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mtwmt/TheF2E/issues"
+  },
+  "homepage": "https://github.com/mtwmt/TheF2E#readme",
+  "description": ""
 }

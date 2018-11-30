@@ -44,6 +44,7 @@ mandy.model.comicviewer = function ($) {
 
 
         obj.success(data);
+        // mandy.controller.comicviewer.slide();
       }
     });
   };
@@ -79,13 +80,15 @@ mandy.view.comicviewer = function ($) {
     return ['<div class="m-page">', '<div class="btn-prev"></div>', '<div class="btn-next"></div>', '<div class="pic">', '<figure><img src="images/comicviewer/storyboard-1.png" alt=""></figure>', '</div>', '</div>'].join('');
   },
       tempItem = function tempItem(data, chapter) {
-    var temp = [];
+    // var temp = [];
 
-    data[chapter].list.map(function (e, i) {
-      temp.push('<li><img src="', e.url, '" width="', e.width, '" height="', e.height, '" alt=""></li>');
+    // data[chapter].list.map(function( e,i ){
+    //   temp.push(
+    //     '<li><img src="', e.url ,'" width="', e.width ,'" height="', e.height ,'" alt=""></li>'
+    //   );
 
-      console.log(e);
-    });
+    //   console.log( e.url )
+    // });
 
     return ['<div class="m-slide">', '<div class="items">', '<div class="btn-prev"></div>', '<div class="btn-next"></div>', '<ul>',
     // temp.join(''),
@@ -124,92 +127,136 @@ mandy.controller.comicviewer = function ($) {
       $item,
       $item_len,
       picidx,
-      creatPage = function creatPage(data) {
-    mandy.view.comicviewer.init(data, 0);
+      $image,
+      picTemp = function picTemp(data) {
+    console.log('picTemp', data);
+    var temp = [];
 
-    // slide( data.comic, 0 );
+    data.map(function (e, i) {
+      temp.push('<li><img src="', e.url, '"></li>');
+    });
+
+    $item = $(temp.join(''));
+    $image = $item.find('>img');
+
+    return $item;
   },
-      imgChange = function imgChange(idx) {
-    $item.removeClass('active');
-    $item.eq(idx).addClass('active');
-    $slide.stop().animate({ scrollLeft: $item.eq(idx).data('pos') }, 400);
-    $page.find('img').attr('src', $item.eq(idx).find('img').attr('src'));
-  },
-      slide = function slide(data, chapter) {
-    // console.log( 'comic',data[chapter].list )
+      creatPage = function creatPage(data) {
+
+    var pic;
+    mandy.view.comicviewer.init(data, 0);
 
     $page = $layout.find('.m-page');
     $slide = $layout.find('.m-slide .items');
-    $items = $slide.find('ul');
 
-    $item = $slide.find('li');
-    $item_len = $item.length;
-
-    $item.width(parseInt($slide.outerWidth() / 6, 10));
-    $slide.height($item.outerHeight() + 40);
-    // $slide.height( $item.find('img').height()  )
-
-    var $item_w = $item.width(),
-        $item_btn_prev = $slide.find('.btn-prev'),
-        $item_btn_next = $slide.find('.btn-next');
-
-    // 計算圖片位子 分別給值
-    $item.each(function (i, e) {
-      var pos;
-      $(e).css({ left: i * $item_w }).attr('data-num', i);
-      if (i > 2 && i < $item_len - 3) {
-        pos = (i - 2) * $item_w;
-      } else if (i >= $item_len - 3) {
-        pos = ($item_len - 3) * $item_w;
-      } else {
-        pos = 0;
-      }
-      $(e).attr('data-pos', pos);
-    });
-    $item_btn_prev.width($item.find('img').outerWidth() / 2).height($item.find('img').height());
-    $item_btn_next.width($item.find('img').outerWidth() / 2).height($item.find('img').height());
-
-    $items.css({ left: $item_w / 2 });
-    $items.width($item_len * $item_w + $item_w / 2);
-    picidx = $items.find('.active').data('num');
-
-    // console.log( $item.find('img').parents('.items').find('li').width() )
-
-    $item.on('click', function () {
-      picidx = $(this).data('num');
-      imgChange(picidx);
-    });
-    $item_btn_prev.on('click', function () {
-      if (picidx === 0) {
-        picidx = 0;
-      } else {
-        picidx = picidx - 1;
-      }
-      imgChange(picidx);
-    });
-    $item_btn_next.on('click', function () {
-      if (picidx === $item_len - 1) {
-        picidx = picidx;
-      } else {
-        picidx = picidx + 1;
-      }
-      imgChange(picidx);
-    });
+    // console.log( data.comic[0].list );
+    slide(data.comic[0].list);
+    // $items = $slide.find('ul').append( picTemp( data.comic[0].list ) );
   },
-      init = function init() {
-    slide();
-    // mandy.model.comicviewer.getData({
-    //   data: {
-    //     chapter: 0,
-    //     pg: 0
-    //   },
-    //   success: creatPage
-    // });
+      slide = function slide(data) {
 
+    var img = new Image();
+    img.src = 'images/comicviewer/storyboard-7.png';
+    img.onload = function () {
+      console.log(img.width, img.height);
+    };
+
+    // data.map(function( e,i ){
+    //   console.log(  'slide1', e.url )
+    //   img.src = e.url
+    // });
+    // var img = new Image();
+    // img.src = 
+    // img.onload = function(){
+    //   // console.log( img.width )
+    // }
+    // url = $image.eq(0).attr('src');
+
+  },
+
+  // imgChange = function( idx ){
+  //   $item.removeClass('active');
+  //   $item.eq(idx).addClass('active');
+  //   $slide.stop().animate({ scrollLeft: $item.eq(idx).data('pos') }, 400);
+  //   $page.find('img').attr('src', $item.eq(idx).find('img').attr('src') );
+  // },
+
+  // slide = function(){
+  //   $page = $layout.find('.m-page');
+  //   $slide = $layout.find('.m-slide .items');
+  //   $items = $slide.find('ul');
+
+  //   $item = $slide.find('li');
+  //   $item_len = $item.length;
+
+  //   $item.width( parseInt( $slide.outerWidth() / 6 ,10) );
+  //   $slide.height( $item.outerHeight() + 40 );
+  //   // $slide.height( $item.find('img').height()  )
+
+  //   var $item_w = $item.width(),
+  //       $item_btn_prev = $slide.find('.btn-prev'),
+  //       $item_btn_next = $slide.find('.btn-next');
+
+
+  //   // 計算圖片位子 分別給值
+  //   $item.each(function( i,e ){
+  //     var pos;
+  //     $(e).css({ left: i * $item_w }).attr('data-num', i);
+  //     if( i > 2 && i < $item_len - 3 ){
+  //       pos = (i-2) * $item_w;
+  //     }else if( i >= ($item_len - 3) ){
+  //       pos = ($item_len - 3) * $item_w;
+  //     }else{
+  //       pos = 0;
+  //     }
+  //     $(e).attr('data-pos', pos );
+  //   });
+  //   $item_btn_prev.width( $item.find('img').outerWidth() / 2 ).height( $item.find('img').height() );
+  //   $item_btn_next.width( $item.find('img').outerWidth() / 2 ).height( $item.find('img').height() );
+
+  //   $items.css({ left: $item_w / 2 });
+  //   $items.width( $item_len * $item_w + $item_w / 2 );
+  //   picidx = $items.find('.active').data('num');
+
+
+  //   // console.log( $item.find('img').parents('.items').find('li').width() )
+
+  //   $item.on('click',function(){
+  //     picidx = $(this).data('num');
+  //     imgChange( picidx );
+  //   });
+  //   $item_btn_prev.on('click',function(){
+  //     if( picidx === 0 ){
+  //       picidx = 0;
+  //     }else{
+  //       picidx = picidx - 1;
+  //     }
+  //     imgChange( picidx );
+  //   });
+  //   $item_btn_next.on('click',function(){
+  //     if( picidx === $item_len - 1){
+  //       picidx = picidx;
+  //     }else{
+  //       picidx = picidx + 1;
+  //     }
+  //     imgChange( picidx );
+  //   });
+
+  // },
+
+  init = function init() {
+
+    mandy.model.comicviewer.getData({
+      data: {
+        chapter: 0,
+        pg: 0
+      },
+      success: creatPage
+    });
   };
   return {
-    init: init,
-    slide: slide
+    init: init
+    // slide: slide
   };
 }(jQuery);
 
