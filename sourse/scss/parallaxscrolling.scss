@@ -1,0 +1,68 @@
+// @import 'layout';
+@import 'reset';
+@import 'function';
+@import 'mixin';
+
+%center{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+$blue: #1469FF;
+$blue_dark: #0027C8;
+$pink: #FF3C82;
+
+body,html{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: $blue;
+  overflow: hidden;
+}
+
+
+
+.opening{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .square{
+    @extend %center;
+    width: rem(430px);
+    height: rem(430px);
+    background-color: #000;
+  }
+  .circle{
+    @extend %center;
+    
+    border-radius: 50%;
+    width: rem(540px);
+    height: rem(540px);
+    background-color: $blue_dark;
+  }
+  .polygon{
+    @extend %center;
+    width: rem(366px);
+    height: rem(366px);
+    &:before,&:after{
+      content: '';
+      position: absolute;
+      top: 0%;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-width:  rem(366px)*0.85  rem(366px)/2;
+      border-color:transparent transparent $pink transparent ;
+      border-style: solid;
+      transform: rotate(0deg);
+      transform-origin: center 75%;
+    }
+    &:after{
+      top: 0%;
+      transform: rotate(180deg);
+    }
+  }
+}
