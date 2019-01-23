@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>week1-todolist</title>
+    <link rel="stylesheet" href="css/todolist.css" />
+    <!-- <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-chalk/index.css" /> -->
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.13/css/all.css" />
+  </head>
+  <body>
+    <div id="app">
+      <nav>
+        <ul>
+          <li :class="( target === nav ) ? 'is-active':''" v-for="nav in navs"><a href="javascript:;" @click="changePage(nav)">{{ nav }}</a></li>
+        </ul>
+      </nav>
+      <div class="content">
+        <div class="m-task-items">
+          <div class="m-task-item" :class="(!item.complete) ? '': 'is-del'" v-for="(item,idx) in getTask">
+            <div class="m-task-label">
+              <div class="group">
+                <div data="checkbox-check">
+                  <input v-model="item.complete" type="checkbox" :id="'check' + idx" />
+                  <label :for="'check' + idx"></label>
+                </div>
+              </div>
+              <div class="info">
+                <h4>{{ item.title }}</h4>
+                <div class="state">
+                  <span class="data">
+                    <i class="far fa-calendar-alt fa-lg"></i> <em>{{ item.date }}</em>
+                  </span>
+                  <span class="file"> <i class="far fa-file fa-lg"></i> </span>
+                  <span class="remark"> <i class="far fa-comment-dots fa-lg"></i> </span>
+                </div>
+              </div>
+              <div class="edit">
+                <i class="fas fa-star" @click="orderedItems()"></i>
+                <i class="far fa-edit"></i>
+              </div>
+            </div>
+            <div class="m-task-event">
+              <div class="m-task-block">
+                <div class="deadline">
+                  <div class="tit"><i class="far fa-calendar-alt"></i> <span>Deadline</span></div>
+                  <div class="cont"><input type="date" /> <input type="time" /></div>
+                </div>
+                <div class="file">
+                  <div class="tit"><i class="far fa-file"></i> <span>File</span></div>
+                  <div class="cont">
+                    <div data="check-file"><input type="file" id="file" /> <label for="file"></label></div>
+                  </div>
+                </div>
+                <div class="comment">
+                  <div class="tit"><i class="far fa-comment-dots"></i> <span>Comment</span></div>
+                  <div class="cont"><textarea name="" id="" cols="30">Type your memo here...</textarea></div>
+                </div>
+              </div>
+              <div class="btns">
+                <a href="javascript:;" class="cancel"> <i class="fa fa-times"></i> Cancel </a>
+                <a href="javascript:;" class="save"> <i class="fa fa-plus"></i> Save </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script src="js/todolist_vue.js"></script>

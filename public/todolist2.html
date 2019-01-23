@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>week1-todolist</title>
+    <link rel="stylesheet" href="css/todolist.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" />
+  </head>
+  <body>
+    <div id="app">
+      <nav-bar :nav="nav" :active="act"></nav-bar>
+      <div class="content">
+        <add-task :add="addtask"></add-task>
+        <div class="m-task-items">
+          <task-item v-for="(task,idx) in todolist" :item="task" :idx="idx"></task-item>
+          <p class="total">{{ todolist.length }} tasks left</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+<script src="js/todolist2.js"></script>

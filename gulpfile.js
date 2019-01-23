@@ -8,7 +8,8 @@ var sourcemaps    = require('gulp-sourcemaps');
 var babel         = require('gulp-babel');
 // 要加裝 babel-preset-es2015
 var prettify      = require('gulp-prettify');
-var browserSync   = require("browser-sync").create();
+// var browserSync   = require("browser-sync").create();
+
 
 gulp.task('css',function(){
   var scss = gulp.src('sourse/scss/*.scss')
@@ -44,7 +45,7 @@ gulp.task('html', function() {
 
 
 gulp.task('watch',function(){
-  gulp.watch('sourse/scss/*.scss',['css']).on('change', browserSync.reload);
-  gulp.watch('sourse/js/*.js',['js']).on('change', browserSync.reload);
-  gulp.watch(['sourse/*.html','sourse/**/*.html'],['html']).on('change', browserSync.reload);
+  gulp.watch('sourse/scss/*.scss',['css']);
+  gulp.watch('sourse/js/*.js',['js']);
+  gulp.watch(['sourse/*.html','sourse/**/*.html'],['html']);
 });

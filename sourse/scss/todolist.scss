@@ -46,6 +46,9 @@ nav{
 
 [data='checkbox-check']{
   @include checkbox( 24px,#4A90E2 );
+  .is-del &{
+    line-height: 0.6rem;
+  }
 }
 
 .m-addtask{
@@ -164,7 +167,7 @@ nav{
     .group,.info,.edit{
       align-self: center;
     }
-    h4{
+    h4,input[type='text']{
       color: #9B9B9B;
       text-decoration:line-through;
     }
@@ -227,6 +230,7 @@ nav{
     i{
       display: inline-block;
       margin-left: rem(20px);
+      cursor: pointer;
     }
   }
   
@@ -254,6 +258,7 @@ nav{
     i{
       display: inline-block;
       width: rem(20px);
+      margin-right: rem(6px);
     }
   }
   .cont{
